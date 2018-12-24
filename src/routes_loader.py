@@ -83,9 +83,9 @@ class ServerRoutes:
                 if self.server.config.api_helper.upper() == "True".upper():
                     helper_route(self.server, parent, path + tree_path, tree_value)
             elif isinstance(tree_value, RouteData):
-                create_route(parent, tree_value, path + tree_path)
                 if self.server.config.api_helper.upper() == "True".upper():
                     helper_route(self.server, parent, path + tree_path, tree_value)
+                create_route(parent, tree_value, path + tree_path)
             else:
                 raise ValueError('Expecting dict or route data type in route tree')
 

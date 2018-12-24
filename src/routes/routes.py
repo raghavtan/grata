@@ -7,20 +7,15 @@ routes = {
                    methods=None,
                    handler=base.base,
                    parameters=""),
-    "/health": RouteData(cache=True,
-                         methods=None,
-                         handler=base.health,
-                         parameters=""),
+    "/health": RouteData(cache=None,
+                         handler=base.health),
     "/_stats": RouteData(cache=True,
-                         methods=None,
-                         handler=base.stats,
-                         parameters=""),
+                         handler=base.stats),
     "/alerts": {
         "/v1": {
             "/<source>": RouteData(cache=True,
                                    methods=['GET', 'POST'],
-                                   handler=alerts.home,
-                                   parameters="")
+                                   handler=alerts.home)
         }
     }
 }
