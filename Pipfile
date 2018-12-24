@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+vibora = {extras = ["fast"]}
+aioslacker = "*"
+json-logging = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
