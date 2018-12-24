@@ -4,15 +4,15 @@ from src.routes import RouteData
 
 routes = {
     "/": RouteData(cache=True,
-                   methods=['GET', 'POST'],
+                   methods=None,
                    handler=base.base,
                    parameters=""),
     "/health": RouteData(cache=True,
-                         methods=['GET', 'POST'],
+                         methods=None,
                          handler=base.health,
                          parameters=""),
     "/_stats": RouteData(cache=True,
-                         methods=['GET', 'POST'],
+                         methods=None,
                          handler=base.stats,
                          parameters=""),
     "/alerts": {

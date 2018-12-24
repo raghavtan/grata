@@ -11,12 +11,13 @@ from src.routes.routes import routes as app_routes
 
 
 def helper_route(server, app, prefix, route):
+    base_path=prefix
     if prefix.endswith(">"):
         base_path = os.path.dirname(prefix)
-        create_route(route_parent=app, route=route, path=base_path)
+        special_route = RouteData(handler=route.handler, methods=None,cache=True)
     else:
         special_route = RouteData(handler=server.url_filter_map, methods=None)
-        create_route(route_parent=app, route=special_route, path=prefix)
+    create_route(route_parent=app, route=special_route, path=base_path)
 
 
 def create_route(route_parent, route, path, strict_slashes=False):
@@ -82,9 +83,9 @@ class ServerRoutes:
                 if self.server.config.api_helper.upper() == "True".upper():
                     helper_route(self.server, parent, path + tree_path, tree_value)
             elif isinstance(tree_value, RouteData):
+                create_route(parent, tree_value, path + tree_path)
                 if self.server.config.api_helper.upper() == "True".upper():
                     helper_route(self.server, parent, path + tree_path, tree_value)
-                create_route(parent, tree_value, path + tree_path)
             else:
                 raise ValueError('Expecting dict or route data type in route tree')
 
