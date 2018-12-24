@@ -1,0 +1,14 @@
+language: python
+python:
+- "3.5"
+- "3.6"
+env:
+  global:
+  - PIPENV_VENV_IN_PROJECT=1
+  - PIPENV_IGNORE_VIRTUALENVS=1
+before_install:
+- sudo apt-get update -y
+- sudo apt-get install -y python-pip
+- sudo pip install pipenv
+# command to install dependencies
+install: pipenv install --deploy
