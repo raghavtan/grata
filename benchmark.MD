@@ -17,16 +17,16 @@ Shortest transaction:	        0.00
 ```
 
 ```$xslt
-Transactions:		        7637 hits
+Transactions:		        8175 hits
 Availability:		      100.00 %
-Elapsed time:		        5.00 secs
-Data transferred:	        0.12 MB
+Elapsed time:		        4.69 secs
+Data transferred:	        0.13 MB
 Response time:		        0.06 secs
-Transaction rate:	     1527.40 trans/sec
-Throughput:		        0.02 MB/sec
-Concurrency:		       98.53
-Successful transactions:        7637
+Transaction rate:	     1743.07 trans/sec
+Throughput:		        0.03 MB/sec
+Concurrency:		       98.94
+Successful transactions:        8175
 Failed transactions:	           0
-Longest transaction:	        0.15
+Longest transaction:	        0.14
 Shortest transaction:	        0.03
 ```
