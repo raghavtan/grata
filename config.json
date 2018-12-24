@@ -2,5 +2,7 @@
   "host": "0.0.0.0",
   "port": 8001,
   "name": "Grata",
-  "debug": "True"
+  "debug": "True",
+  "api_helper": "True",
+  "strict_slashes": "False"
 }

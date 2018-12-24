@@ -15,11 +15,11 @@ def helper_route(server, app, prefix, route):
         base_path = os.path.dirname(prefix)
         create_route(route_parent=app, route=route, path=base_path)
     else:
-        special_route = RouteData(handler=server.url_filter_map,methods=None)
+        special_route = RouteData(handler=server.url_filter_map, methods=None)
         create_route(route_parent=app, route=special_route, path=prefix)
 
 
-def create_route(route_parent, route, path):
+def create_route(route_parent, route, path, strict_slashes=False):
     """
 
     :param route_parent:
@@ -63,7 +63,7 @@ class ServerRoutes:
     def __init__(self, server):
         """
 
-        :param application:
+        :param server:
         """
         self.server = server
         self.application = server.application()
@@ -79,13 +79,14 @@ class ServerRoutes:
                 self.traverse_route_tree(
                     tree=tree_value, path=path + tree_path
                 )
-                helper_route(self.server, parent, path + tree_path, tree_value)
+                if self.server.config.api_helper.upper() == "True".upper():
+                    helper_route(self.server, parent, path + tree_path, tree_value)
             elif isinstance(tree_value, RouteData):
-                helper_route(self.server, parent, path + tree_path, tree_value)
+                if self.server.config.api_helper.upper() == "True".upper():
+                    helper_route(self.server, parent, path + tree_path, tree_value)
                 create_route(parent, tree_value, path + tree_path)
             else:
                 raise ValueError('Expecting dict or route data type in route tree')
-
 
     def __validateRouteHandler__(self, handler):
         pass

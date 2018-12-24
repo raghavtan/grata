@@ -24,6 +24,8 @@ Things you need to install the application and how to install them
 - pipenv
 
 ```
+GCC
+C++ Devel package
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 pip install pipenv
