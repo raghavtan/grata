@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-vibora = {extras = ["fast"]}
 aioslacker = "*"
 json-logging = "*"
+vibora = "*"
 
 [dev-packages]
 

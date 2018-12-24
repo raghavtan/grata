@@ -15,7 +15,7 @@ def helper_route(server, app, prefix, route):
         base_path = os.path.dirname(prefix)
         create_route(route_parent=app, route=route, path=base_path)
     else:
-        special_route = RouteData(handler=server.url_filter_map)
+        special_route = RouteData(handler=server.url_filter_map,methods=None)
         create_route(route_parent=app, route=special_route, path=prefix)
 
 
