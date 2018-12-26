@@ -2,17 +2,17 @@ BenchMarks on
 C5.Xlarge
 VIBORA
 ```$xslt
-Transactions:		       29460 hits
+Transactions:		       44724 hits
 Availability:		      100.00 %
-Elapsed time:		        4.99 secs
-Data transferred:	        8.77 MB
-Response time:		        0.03 secs
-Transaction rate:	     5903.81 trans/sec
-Throughput:		        1.76 MB/sec
-Concurrency:		      195.54
-Successful transactions:           0
+Elapsed time:		        4.89 secs
+Data transferred:	        0.60 MB
+Response time:		        0.02 secs
+Transaction rate:	     9146.01 trans/sec
+Throughput:		        0.12 MB/sec
+Concurrency:		      220.76
+Successful transactions:       44724
 Failed transactions:	           0
-Longest transaction:	        1.02
+Longest transaction:	        0.17
 Shortest transaction:	        0.00
 ```
 
