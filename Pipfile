@@ -9,6 +9,7 @@ json-logging = "*"
 vibora = "*"
 cython = "*"
 slackclient = "*"
+requests = "*"
 
 [dev-packages]
 
