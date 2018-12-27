@@ -8,11 +8,11 @@ WORKDIR /usr
 
 COPY . /usr/app
 
-RUN pip3 install pipenv
+RUN pip install pipenv
 
 WORKDIR /usr/app
 
-RUN pipenv install
+RUN pipenv install .
 
 ENTRYPOINT ["pipenv"]
 
