@@ -4,5 +4,6 @@
   "name": "Grata",
   "debug": "True",
   "api_helper": "True",
-  "strict_slashes": "False"
+  "strict_slashes": "False",
+  "slack_token":"xoxb-77528652416-ALmWFSOh3PaYKpRoJPnfvNxI"
 }

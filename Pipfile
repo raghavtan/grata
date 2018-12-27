@@ -8,6 +8,7 @@ aioslacker = "*"
 json-logging = "*"
 vibora = "*"
 cython = "*"
+slackclient = "*"
 
 [dev-packages]
 

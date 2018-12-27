@@ -10,14 +10,41 @@ from src.routes import RouteData
 from src.routes.routes import routes as app_routes
 
 
-def helper_route(server, app, prefix, route):
-    base_path=prefix
-    if prefix.endswith(">"):
-        base_path = os.path.dirname(prefix)
-        special_route = RouteData(handler=route.handler, methods=None,cache=True)
-    else:
-        special_route = RouteData(handler=server.url_filter_map, methods=None)
-    create_route(route_parent=app, route=special_route, path=base_path)
+def _route_internal_(route, methods_list, cache_engine, path, strict_slashes=False):
+    """
+
+    :param route:
+    :param methods_list:
+    :param cache_engine:
+    :param path:
+    :param strict_slashes:
+    :return:
+    """
+    route_list = []
+    path_list_base = [path]
+    path_list = []
+    path_last_suffix = os.path.basename(os.path.normpath(path))
+    path_prefix = os.path.dirname(path)
+
+    if path_last_suffix.startswith("<") and path_last_suffix.endswith(">"):
+        path_list_base.append(path_prefix)
+
+    for path_element in path_list_base:
+        if not strict_slashes and len(path_element) > 2:
+            path_list.append(path_element.rstrip("/"))
+            path_list.append(str(path_element + "/"))
+        else:
+            path_list.append(path_element)
+    for route_element in list(set(path_list)):
+        route_remodeled = Route(
+            pattern=str.encode(route_element),
+            handler=route.handler,
+            methods=methods_list,
+            cache=cache_engine
+        )
+        route_list.append(route_remodeled)
+
+    return route_list
 
 
 def create_route(route_parent, route, path, strict_slashes=False):
@@ -26,6 +53,7 @@ def create_route(route_parent, route, path, strict_slashes=False):
     :param route_parent:
     :param route:
     :param path:
+    :param strict_slashes:
     :return:
     """
     route_list = []
@@ -37,21 +65,7 @@ def create_route(route_parent, route, path, strict_slashes=False):
         cache_engine = None
     for route_method in route.methods:
         methods_list.append(route_method.upper())
-    route_remodeled_slash_free = Route(
-        pattern=str.encode(path),
-        handler=route.handler,
-        methods=methods_list,
-        cache=cache_engine
-    )
-    route_list.append(route_remodeled_slash_free)
-    if len(path) > 1 and not path.endswith("/"):
-        route_remodeled_slash_inclusive = Route(
-            pattern=str.encode(path + "/"),
-            handler=route.handler,
-            methods=methods_list,
-            cache=cache_engine
-        )
-        route_list.append(route_remodeled_slash_inclusive)
+    route_list = _route_internal_(route, methods_list, cache_engine, path, strict_slashes)
     for internal_route_object in route_list:
         route_parent.add_route(internal_route_object)
 
@@ -71,6 +85,13 @@ class ServerRoutes:
         self.route_tree = app_routes
 
     def traverse_route_tree(self, parent=None, tree=None, path="/"):
+        """
+
+        :param parent:
+        :param tree:
+        :param path:
+        :return:
+        """
         if not parent:
             parent = self.application
         if not tree:
@@ -80,12 +101,9 @@ class ServerRoutes:
                 self.traverse_route_tree(
                     tree=tree_value, path=path + tree_path
                 )
-                if self.server.config.api_helper.upper() == "True".upper():
-                    helper_route(self.server, parent, path + tree_path, tree_value)
             elif isinstance(tree_value, RouteData):
-                if self.server.config.api_helper.upper() == "True".upper():
-                    helper_route(self.server, parent, path + tree_path, tree_value)
-                create_route(parent, tree_value, path + tree_path)
+
+                create_route(parent, tree_value, path + tree_path, self.server.config.slashes)
             else:
                 raise ValueError('Expecting dict or route data type in route tree')
 

@@ -3,19 +3,23 @@
 """
 from vibora import Request
 from vibora import Vibora
+from vibora.hooks import Hook, Events
 from vibora.responses import JsonResponse
 from vibora.router import RouterStrategy
 from vibora.router.router import Route
 
+from src.listeners import CreateSingleton
+from src.listeners.slack_client import ListenerClient
 from src.routes_loader import ServerRoutes
-from utilities import logger
 from utilities import __routes_list_filter__
+from utilities import logger
 
 
 class Server(object):
     """
 
     """
+
     def __init__(self, config):
         """
 
@@ -26,6 +30,34 @@ class Server(object):
         self.app.components.add(self.config)
         if config.api_helper.upper() == "True".upper():
             self.load_inbuilt_routes()
+        if config.strict_slashes.upper() == "True".upper():
+            self.config.slashes = True
+        else:
+            self.config.slashes = False
+        ListenerClient(config)
+        self.closure_handling()
+
+    def load_inbuilt_routes(self):
+        """
+
+        :return:
+        """
+        self.app.add_route(Route(pattern=str.encode("/routes"), handler=self.url_map))
+
+    def load_routes(self):
+        """
+
+        :return:
+        """
+        apis_base = ServerRoutes(self)
+        apis_base.traverse_route_tree()
+
+    def closure_handling(self):
+        closure_hook = Hook(
+            Events.BEFORE_SERVER_STOP,
+            handler=CreateSingleton.__clean_all__
+        )
+        self.app.add_hook(closure_hook)
 
     async def url_filter_map(self, request: Request):
         """
@@ -45,21 +77,6 @@ class Server(object):
         """
         url_json = await __routes_list_filter__(self.app)
         return JsonResponse(url_json)
-
-    def load_inbuilt_routes(self):
-        """
-
-        :return:
-        """
-        self.app.add_route(Route(pattern=str.encode("/routes"), handler=self.url_map))
-
-    def load_routes(self):
-        """
-
-        :return:
-        """
-        apis_base = ServerRoutes(self)
-        apis_base.traverse_route_tree()
 
     @staticmethod
     def log_handler(msg, level):
@@ -83,6 +100,9 @@ class Server(object):
                      port=self.config.port,
                      debug=bool(self.config.debug),
                      )
+
+    def stop(self):
+        self.app.clean_up()
 
     def application(self):
         return self.app
