@@ -14,7 +14,7 @@ class ListenerClient(metaclass=CreateSingleton):
 
     async def notification(self, channel="ops-infra-alerts", payload="sample"):
         try:
-            encoded_payload = json.dumps(payload,sort_keys=True, indents=4)
+            encoded_payload = json.dumps(payload)
             headers = {'Content-type': 'application/json'}
             r = requests.post(self.slacker, json={"text": "```%s```" % encoded_payload,
                                                   "channel": "#%s"%channel,
