@@ -5,5 +5,6 @@
   "debug": "True",
   "api_helper": "True",
   "strict_slashes": "False",
-  "slack_url":"https://limetray.slack.com/services/hooks/jenkins-ci/nUrt8vpKMbou1GsIDJ5J2gQy"
+  "slack_url":"https://hooks.slack.com/services/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",
+  "slack_token":"xoxp-2277836027-236641862790-517809741604-74ac866e5987d387080d7645ab87b639"
 }
