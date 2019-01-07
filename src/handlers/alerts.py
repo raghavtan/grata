@@ -25,6 +25,7 @@ async def home(request: Request, source: str):
                 return JsonResponse(resp, status_code=status)
             else:
                 print("notif")
+                print(out)
                 resp = {'err': out}
                 status = 400
                 return JsonResponse(resp, status_code=status)

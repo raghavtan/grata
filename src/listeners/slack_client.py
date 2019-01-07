@@ -12,11 +12,15 @@ class ListenerClient(metaclass=CreateSingleton):
 
     async def notification(self, channel="#ops-infra-alerts", payload="sample"):
         try:
-            payload = {"text": "sample"}
-            encoded_payload= json.dumps(payload)
+            payload = {"text ": "randomly random",
+                       "channel": channel,
+                       "username": "Jenkins",
+                       "attachments": payload
+                       }
+            encoded_payload = json.dumps(payload)
             headers = {'Content-type': 'application/json'}
-            r = requests.post(self.slacker, data=encoded_payload,headers=headers)
-            out = {"text": r.text, "json": r.json(),"err":r.status_code,"sc":r.status_code}
+            r = requests.post(self.slacker, data=encoded_payload, headers=headers)
+            out = {"text": r.text, "json": r.json(), "err": r.status_code, "sc": r.status_code}
         except Exception as e:
             out = str(e)
         # out = self.slacker.api_call("chat.postMessage", channel=channel, text=payload)

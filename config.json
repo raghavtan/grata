@@ -5,5 +5,5 @@
   "debug": "True",
   "api_helper": "True",
   "strict_slashes": "False",
-  "slack_url":""
+  "slack_url":"https://limetray.slack.com/services/hooks/jenkins-ci/nUrt8vpKMbou1GsIDJ5J2gQy"
 }
