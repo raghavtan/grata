@@ -29,7 +29,7 @@ async def home(request: Request, source: str):
     if source:
         try:
             slc = CreateSingleton.singleton_instances[ListenerClient]
-            payload = request.json()
+            payload = await request.json()
             channel_list = await slc.channels()
             svc = service_name(slc, channel_list, payload)
             if isinstance(svc, dict):
