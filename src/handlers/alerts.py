@@ -28,7 +28,7 @@ async def home(request: Request, source: str):
     if source:
         try:
             slc = CreateSingleton.singleton_instances[ListenerClient]
-            payload = await request.json()
+            payload = request.json()
             channel_list = await slc.channels()
             svc = service_name(slc, channel_list, payload)
             if isinstance(svc, dict):
@@ -41,10 +41,12 @@ async def home(request: Request, source: str):
                 status = 200
             else:
                 resp = {'err': out}
+                print(resp)
                 status = 400
             return JsonResponse(resp, status_code=status)
         except Exception as e:
             resp = {"err": str.encode(str(e))}
+            print(resp)
             status = 400
             return JsonResponse(resp, status_code=status)
 
