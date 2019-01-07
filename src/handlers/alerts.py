@@ -4,6 +4,7 @@
 from vibora.request import Request
 from vibora.responses import JsonResponse
 from vibora.responses import Response
+import asyncio
 
 from src.listeners import CreateSingleton
 from src.listeners.slack_client import ListenerClient
@@ -24,15 +25,16 @@ def service_name(slack_client, channel_list, payload):
 
 
 async def home(request: Request, source: str):
+    loop = asyncio.get_event_loop()
     if source:
         try:
             print("Sending Payload to slack")
             slc = CreateSingleton.singleton_instances[ListenerClient]
             payload = await request.json()
-            channel_list = await slc.channels()
+            channel_list = slc.channels()
             svc = service_name(slc, channel_list, payload)
             if isinstance(svc, dict):
-                out = await slc.notification(channel=svc["svc_channel"], payload=payload)
+                out = slc.notification(channel=svc["svc_channel"], payload=payload)
             else:
                 out = svc
             if isinstance(out, dict):

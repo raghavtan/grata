@@ -12,9 +12,9 @@ class ListenerClient(metaclass=CreateSingleton):
         self.slacker = config.slack_url
         self.slacker_client = SlackClient(config.slack_token)
 
-    async def notification(self, channel="ops-infra-alerts", payload="sample"):
+    def notification(self, channel="ops-infra-alerts", payload="sample"):
         try:
-            encoded_payload = json.dumps(payload,sort_keys=True, indents=4)
+            encoded_payload = json.dumps(payload,sort_keys=True, indent=4)
             headers = {'Content-type': 'application/json'}
             r = requests.post(self.slacker, json={"text": "```%s```" % encoded_payload,
                                                   "channel": "#%s"%channel,
@@ -31,7 +31,7 @@ class ListenerClient(metaclass=CreateSingleton):
     def close(self):
         logger.info("Closing Slack connection pool")
 
-    async def channels(self):
+    def channels(self):
         channel_names=[]
         channels = self.slacker_client.api_call("channels.list")
         for channel in channels["channels"]:
