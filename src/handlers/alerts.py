@@ -12,6 +12,7 @@ from src.listeners.slack_client import ListenerClient
 def service_name(slack_client, channel_list, payload):
     try:
         service = "sampler2"
+        out = {"svc_channel": service}
         if service not in channel_list:
             print("Creating new channel [%s]" % service)
             validate_get_svc = slack_client.create_channel(name=service)
