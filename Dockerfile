@@ -1,4 +1,4 @@
-FROM kennethreitz/pipenv
+FROM python:3.6
 
 WORKDIR /usr
 
@@ -8,7 +8,8 @@ WORKDIR /usr
 
 COPY . /usr/app
 
-RUN pip install pipenv
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3.6 get-pip.py && \
+  python3.6 -m pip install pipenv
 
 WORKDIR /usr/app
 
