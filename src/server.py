@@ -10,6 +10,7 @@ from vibora.router.router import Route
 
 from src.listeners import CreateSingleton
 from src.listeners.slack_client import ListenerClient
+from src.listeners.kafka_client import KafkaPublish
 from src.routes_loader import ServerRoutes
 from utilities import __routes_list_filter__
 from utilities import logger
@@ -35,6 +36,7 @@ class Server(object):
         else:
             self.config.slashes = False
         ListenerClient(config)
+        KafkaPublish(config)
         self.closure_handling()
 
     def load_inbuilt_routes(self):

@@ -1,5 +1,6 @@
 from src.handlers import alerts
 from src.handlers import base
+from src.handlers import incoming
 from src.routes import RouteData
 
 routes = {
@@ -17,5 +18,9 @@ routes = {
                                    methods=['GET', 'POST'],
                                    handler=alerts.home)
         }
-    }
+    },
+    "/incoming": RouteData(cache=None,
+                           handler=incoming.home,
+                           methods=['GET', 'POST']
+                           ),
 }

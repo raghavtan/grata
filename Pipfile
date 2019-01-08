@@ -10,6 +10,7 @@ vibora = "*"
 cython = "*"
 slackclient = "*"
 requests = "*"
+kafka-python = "*"
 
 [dev-packages]
 
