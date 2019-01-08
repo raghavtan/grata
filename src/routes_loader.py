@@ -56,7 +56,6 @@ def create_route(route_parent, route, path, strict_slashes=False):
     :param strict_slashes:
     :return:
     """
-    route_list = []
     methods_list = []
     path = path.replace("//", "/")
     if route.cache:

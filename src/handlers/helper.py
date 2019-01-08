@@ -6,6 +6,12 @@ from vibora.responses import JsonResponse
 
 
 async def home(request: Request, source: dict):
+    """
+
+    :param request:
+    :param source:
+    :return:
+    """
     if source:
         return JsonResponse({'msg': source})
     else:

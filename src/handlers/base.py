@@ -9,10 +9,20 @@ from src.listeners.slack_client import ListenerClient
 
 
 async def base(request: Request):
+    """
+
+    :param request:
+    :return:
+    """
     return JsonResponse({'msg': "base"})
 
 
 async def health(request: Request):
+    """
+
+    :param request:
+    :return:
+    """
     try:
         slc = CreateSingleton.singleton_instances[ListenerClient]
         slc.notification()
@@ -23,8 +33,18 @@ async def health(request: Request):
 
 
 async def stats(request: Request):
+    """
+
+    :param request:
+    :return:
+    """
     return JsonResponse({'msg': "stats"})
 
 
 async def routes(request: Request):
+    """
+
+    :param request:
+    :return:
+    """
     return JsonResponse({'msg': "stats"})

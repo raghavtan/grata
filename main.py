@@ -1,11 +1,19 @@
+"""
+
+"""
 import json
 
 from src.server import Server
 from utilities import Config
 from utilities.termination_protection import TerminateProtected
+from utilities import logger
 
 
 def main():
+    """
+
+    :return:
+    """
     with TerminateProtected():
         try:
             with open('config.json') as f:
@@ -15,7 +23,7 @@ def main():
                 server.start()
                 server.stop()
         except Exception as e:
-            print("Shutting Down[Crash] %s" % e)
+            logger.error("Shutting Down[Crash] %s" % e)
 
 
 if __name__ == '__main__':

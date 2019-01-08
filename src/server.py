@@ -42,6 +42,7 @@ class Server(object):
 
         :return:
         """
+        logger.info("Loading inbuilt routes")
         self.app.add_route(Route(pattern=str.encode("/routes"), handler=self.url_map))
 
     def load_routes(self):
@@ -49,10 +50,15 @@ class Server(object):
 
         :return:
         """
+        logger.info("Loading routes from config")
         apis_base = ServerRoutes(self)
         apis_base.traverse_route_tree()
 
     def closure_handling(self):
+        """
+
+        :return:
+        """
         closure_hook = Hook(
             Events.BEFORE_SERVER_STOP,
             handler=CreateSingleton.__clean_all__
@@ -102,7 +108,16 @@ class Server(object):
                      )
 
     def stop(self):
+        """
+
+        :return:
+        """
+        logger.info("Stopping server")
         self.app.clean_up()
 
     def application(self):
+        """
+
+        :return:
+        """
         return self.app

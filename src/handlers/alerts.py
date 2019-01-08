@@ -4,35 +4,50 @@
 from vibora.request import Request
 from vibora.responses import JsonResponse
 from vibora.responses import Response
-import asyncio
 
 from src.listeners import CreateSingleton
 from src.listeners.slack_client import ListenerClient
+from utilities import logger
 
 
-def service_name(slack_client, channel_list, payload):
+async def service_name(slack_client, channel_list, payload):
+    """
+
+    :param slack_client:
+    :param channel_list:
+    :param payload:
+    :return:
+    """
     try:
-        service = "sampler2"
+        service = "devops"
         out = dict(svc_channel=service)
+        trace = "Create new channel [%s]" % service
         if service not in channel_list:
-            print("Creating new channel [%s]" % service)
+            logger.info(trace + " Initiated")
             validate_get_svc = slack_client.create_channel(name=service)
             if not validate_get_svc["ok"]:
                 out = "Error creating channel[%s]" % validate_get_svc["error"]
+                trace = out
+            slack_client.notification(channel="devops", payload=trace)
     except Exception as e:
         out = "Error [%s]" % e
     return out
 
 
 async def home(request: Request, source: str):
-    loop = asyncio.get_event_loop()
+    """
+
+    :param request:
+    :param source:
+    :return:
+    """
     if source:
         try:
-            print("Sending Payload to slack")
+            logger.info("Sending Payload to slack")
             slc = CreateSingleton.singleton_instances[ListenerClient]
             payload = await request.json()
             channel_list = slc.channels()
-            svc = service_name(slc, channel_list, payload)
+            svc = await service_name(slc, channel_list, payload)
             if isinstance(svc, dict):
                 out = slc.notification(channel=svc["svc_channel"], payload=payload)
             else:
@@ -43,11 +58,11 @@ async def home(request: Request, source: str):
             else:
                 resp = {'err': out}
                 status = 400
-            print("Sent payload to slack %s "%resp)
+            logger.info("Sent payload to slack %s " % resp)
             return JsonResponse(resp, status_code=status)
         except Exception as e:
             resp = {"err": str.encode(str(e))}
-            print(resp)
+            logger.info(resp)
             status = 400
             return JsonResponse(resp, status_code=status)
 
