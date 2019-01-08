@@ -1,4 +1,4 @@
-FROM python:3.6.4
+FROM python:3.6
 
 WORKDIR /usr
 
@@ -12,10 +12,8 @@ RUN pip3 install pipenv
 
 WORKDIR /usr/app
 
-RUN pipenv install --deploy --system
-
-ENTRYPOINT ["pipenv"]
+RUN pip3 install -r requirements.txt
 
 EXPOSE 8001
 
-CMD ["run", "python" ,"main.py"]
+CMD ["python" ,"main.py"]

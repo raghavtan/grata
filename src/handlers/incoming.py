@@ -20,6 +20,8 @@ async def home(request: Request):
         logger.info("Received incoming alert")
         kaf = CreateSingleton.singleton_instances[KafkaPublish]
         payload = await request.json()
+        logger.debug("Request Arguments %s"%request.args)
+        logger.debug("Request payload [%s]"%payload)
         resp = kaf.publish(payload=payload)
         return JsonResponse({"msg": resp}, status_code=200)
     except Exception as e:

@@ -11,6 +11,7 @@ cython = "*"
 slackclient = "*"
 requests = "*"
 kafka-python = "*"
+vistir = "*"
 
 [dev-packages]
 

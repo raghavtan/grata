@@ -32,9 +32,8 @@ class KafkaPublish(metaclass=CreateSingleton):
             self.alert_topic = config.kafka_alerts_topic
             self.publisher = KafkaProducer(
                 bootstrap_servers=config.kafka_host,
-                value_serializer=lambda v: json.dumps(v).encode('utf-8'),
                 compression_type='gzip',
-                retries=3
+                retries=3,
             )
         except Exception as e:
             logger.error(e)
@@ -47,9 +46,10 @@ class KafkaPublish(metaclass=CreateSingleton):
         :return:
         """
         try:
+            logger.debug("publishing to topic[%s] message[%s] "%(self.alert_topic,payload))
             fut = self.publisher.send(
-                topic=self.alert_topic,
-                value=payload
+                self.alert_topic,
+                b"%s"%payload,
             ).add_callback(on_send_success).add_errback(on_send_error)
             resp = fut.__dict__
         except Exception as e:
