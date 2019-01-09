@@ -23,7 +23,7 @@ def main():
                 server.start()
                 server.stop()
         except Exception as e:
-            logger.error("Shutting Down[Crash] %s" % e)
+            logger.exception("Shutting Down[Crash] %s" % e)
 
 
 if __name__ == '__main__':

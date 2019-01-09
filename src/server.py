@@ -29,15 +29,26 @@ class Server(object):
         self.app = Vibora(router_strategy=RouterStrategy.CLONE, log=logger)
         self.config = config
         self.app.components.add(self.config)
-        if config.api_helper.upper() == "True".upper():
+        self.config_parser_restructure()
+        if self.config.api_helper.upper() == "True".upper():
             self.load_inbuilt_routes()
-        if config.strict_slashes.upper() == "True".upper():
+        logger.info("Initializing Slack connection")
+        ListenerClient(config)
+        if self.config.enable_queue:
+            logger.info("Initializing Kafka connection")
+        KafkaPublish(config)
+        self.closure_handling()
+
+    def config_parser_restructure(self):
+        if self.config.strict_slashes.upper() == "True".upper():
             self.config.slashes = True
         else:
             self.config.slashes = False
-        ListenerClient(config)
-        KafkaPublish(config)
-        self.closure_handling()
+        if self.config.alert_queue.upper() == "True".upper():
+            self.config.enable_queue=True
+        else:
+            self.config.enable_queue=False
+
 
     def load_inbuilt_routes(self):
         """

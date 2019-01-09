@@ -20,8 +20,10 @@
             "hashes": [
                 "sha256:17e29040b80c0674696c806ba86cba6e68813966825885027e2c39054f51ff0b",
                 "sha256:3a9799ca609a27dbe74762f2be1267695464218614fa20d9b19bae298716c56a",
+                "sha256:3c29653e39dba10e9fd309ca55a429c8ae872ec2d0383a7124fad32ddca7f68d",
                 "sha256:3d851b15e615c0ad619de0990ab94c9721c335aebb58d160bf77a4af963c6b50",
                 "sha256:4c909075fdbb72d32cf4264d3d7636b34bc593bcd6e91ebc6a09614f6a358a9f",
+                "sha256:7db10a247c164966c4755098dcf53b999cbe2709af0004ddb7a9af20a64cc544",
                 "sha256:88f05b3eb290588b4ec250be92c7f1d61c3773a965a053f0ebb918cec2fea99d",
                 "sha256:a2d86fda9b71a0a47f8fa8910322ca149cb9aa18f1649d7a625f97f0911c3bdc",
                 "sha256:b4697481137b93df776921af6f004006f9983287d0ec1de1fef5cc5003de5e0f",
@@ -30,6 +32,7 @@
                 "sha256:ccc106721cbc2cb3a436892677a71611214220aed9b14e55b1ef8a053be0d5c2",
                 "sha256:ce4ed6df667e5add49362af1e1d7a38d511cebb717caa8f2e97adfdb1a730402",
                 "sha256:d85ae8281d43016f4c6d9bee93f13b43933c405784ff3e0d68ff31b45290010a",
+                "sha256:e74a93b56bda8c5d4b1de53f4244b18995302b955d44aab6e9f422676f1febe2",
                 "sha256:f9847ad31aec2ba4697b28ca50dc933b14fedc97e1090797e819be30180d62c4"
             ],
             "version": "==3.5.2"

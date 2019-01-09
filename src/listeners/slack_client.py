@@ -14,6 +14,7 @@ class ListenerClient(metaclass=CreateSingleton):
     """
 
     """
+
     def __init__(self, config):
         """
 
@@ -21,9 +22,10 @@ class ListenerClient(metaclass=CreateSingleton):
         """
         self.slacker = config.slack_url
         self.slacker_client = SlackClient(config.slack_token)
+        self.default_channel = config.slack_default_channel
 
     def notification(self,
-                     channel="ops-infra-alerts",
+                     channel=None,
                      payload="sample"):
         """
 
@@ -32,18 +34,22 @@ class ListenerClient(metaclass=CreateSingleton):
         :return:
         """
         try:
+            if not channel:
+                channel = self.default_channel
+            logger.info("Sending Payload to slack")
             encoded_payload = json.dumps(payload, sort_keys=True, indent=4)
             headers = {'Content-type': 'application/json'}
             r = requests.post(self.slacker,
                               json={
                                   "text": "```%s```" % encoded_payload,
                                   "channel": "#%s" % channel,
-                                  "username": "Notifier",
+                                  "username": "NotificationAlert",
                                   "mrkdwn": "true"
                               },
                               headers=headers)
 
-            out = {"text": r.text, "err": r.status_code, "sc": r.status_code}
+            out = {"text": r.text, "sc": r.status_code}
+            r.close()
             logger.debug(out)
         except Exception as e:
             out = str(e)
@@ -55,18 +61,14 @@ class ListenerClient(metaclass=CreateSingleton):
 
         :return:
         """
-        logger.info("Closing Slack connection pool")
+        # logger.debug("Closed Slack connection pool")
 
     def channels(self):
         """
 
         :return:
         """
-        channel_names = []
-        channels = self.slacker_client.api_call("channels.list")
-        for channel in channels["channels"]:
-            channel_names.append(channel["name"])
-        return channel_names
+        return self.slacker_client.server.channels
 
     def create_channel(self, name):
         """
@@ -74,9 +76,28 @@ class ListenerClient(metaclass=CreateSingleton):
         :param name:
         :return:
         """
-        channel_create = self.slacker_client.api_call(
-            "channels.create",
-            name=name
-        )
-        logger.debug(channel_create)
-        return channel_create
+
+        out = dict(svc_channel=name)
+        trace = "Create New Slack Channel [%s]" % name
+        try:
+            logger.debug(trace + " Initiated")
+            channel_create = self.slacker_client.api_call(
+                "channels.create",
+                name=name
+            )
+
+            if channel_create["ok"] or (not channel_create["ok"] and channel_create["error"] == "name_taken"):
+                if channel_create["ok"]:
+                    self.notification(payload=trace)
+                else:
+                    logger.debug("Slack channel already exists [%s]" % name)
+            else:
+                out = "Error creating channel[%s:%s]" % (name,channel_create["error"])
+                self.notification(payload=out)
+            return out
+
+        except Exception as e:
+            logger.exception(e,exc_info=True)
+            trace = "Error [%s] %s " % (e, trace)
+            self.notification(payload=trace)
+            return trace

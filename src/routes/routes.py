@@ -19,8 +19,14 @@ routes = {
                                    handler=alerts.home)
         }
     },
-    "/incoming": RouteData(cache=None,
-                           handler=incoming.home,
-                           methods=['GET', 'POST']
-                           ),
+    "/incoming": {
+        "/api": RouteData(cache=None,
+                          methods=['GET', 'POST'],
+                          handler=incoming.api),
+
+        "/queue": RouteData(cache=None,
+                            methods=['GET', 'POST'],
+                            handler=incoming.queue)
+    }
+
 }
