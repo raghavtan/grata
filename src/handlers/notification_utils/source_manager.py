@@ -17,7 +17,7 @@ class AlertsSource:
     @classmethod
     def __key_set__(cls):
         """
-        
+
         :return:
         """
         sources = []
