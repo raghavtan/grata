@@ -7,7 +7,7 @@ class AlertsSource:
     """
 
     """
-    slack = ["attachments", "channels"]
+    slack = ["attachments", "channel"]
     bugnsag = ["account", "project"]
     logs = ["check_result", "stream"]
     service = ["microservice"]
