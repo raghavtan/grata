@@ -3,7 +3,7 @@ import sys
 
 import json_logging
 
-json_logging.ENABLE_JSON_LOGGING = True
+json_logging.ENABLE_JSON_LOGGING = False
 json_logging.init()
 logger = logging.getLogger("root")
 logger.setLevel(logging.DEBUG)
