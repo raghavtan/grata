@@ -26,7 +26,8 @@ class ListenerClient(metaclass=CreateSingleton):
 
     def notification(self,
                      channel=None,
-                     payload="sample"):
+                     payload="sample",
+                     slack_format=False):
         """
 
         :param channel:
@@ -39,14 +40,19 @@ class ListenerClient(metaclass=CreateSingleton):
             logger.info("Sending Payload to slack")
             encoded_payload = json.dumps(payload, sort_keys=True, indent=4)
             headers = {'Content-type': 'application/json'}
-            r = requests.post(self.slacker,
-                              json={
-                                  "text": "```%s```" % encoded_payload,
-                                  "channel": "#%s" % channel,
-                                  "username": "NotificationAlert",
-                                  "mrkdwn": "true"
-                              },
-                              headers=headers)
+            if not slack_format:
+                r = requests.post(self.slacker,
+                                  json={
+                                      "text": "```%s```" % encoded_payload,
+                                      "channel": "#%s" % channel,
+                                      "username": "NotificationAlert",
+                                      "mrkdwn": "true"
+                                  },
+                                  headers=headers)
+            else:
+                r = requests.post(self.slacker,
+                                  json=payload,
+                                  headers=headers)
 
             out = {"text": r.text, "sc": r.status_code}
             r.close()
