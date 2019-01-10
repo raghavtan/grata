@@ -55,6 +55,7 @@ async def api(request: Request):
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
+        logger.debug(payload.keys())
         if ["attachments", "channel", "username"] in payload.keys():
             slack_direct_flag = True
             del payload["channel"]
@@ -67,7 +68,7 @@ async def api(request: Request):
             resp['channel'] = slc.create_channel(resp["service"]["name"])
 
         if isinstance(resp["channel"], dict):
-            logger.debug(payload.keys())
+
             resp['notification'] = slc.notification(
                 channel=resp["channel"]["svc_channel"],
                 payload=payload,

@@ -1,0 +1,43 @@
+{
+  'text': '',
+  'channel': '#jenkins',
+  'username': 'Jenkins',
+  'icon_url': 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png',
+  'attachments': [
+    {
+      'title': 'LimeTray, analytics-ui-service , build #67',
+      'title_link': 'http://jenkins.limetray.com:8080/job/LimeTray/job/analytics-ui-service/job/develop/67/',
+      'color': 'warning',
+      'author_name': 'Raghav Tandon',
+      'text': '@yash_limetray',
+      'mrkdwn_in': [
+        'fields'
+      ],
+      'fields': [
+        {
+          'title': 'Branch',
+          'value': 'develop',
+          'short': True
+        },
+        {
+          'title': 'Results',
+          'value': 'Started build : analytics-ui-service on branch develop with build #67',
+          'short': True
+        },
+        {
+          'title': 'Last Commit',
+          'value': 'updated github oauth token in dockerfile',
+          'short': False
+        }
+      ]
+    },
+    {
+      'title': 'Output',
+      'color': 'warning',
+      'text': '-N/A-',
+      'mrkdwn_in': [
+        'text'
+      ]
+    }
+  ]
+}
