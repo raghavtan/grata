@@ -45,10 +45,7 @@ async def api(request: Request):
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
-        logger.debug(payload.keys())
         source = source_manager(payload)
-        logger.debug(source)
-        logger.debug(type(source))
         if source == "slack":
             slack_direct_flag = True
             del payload["channel"]
