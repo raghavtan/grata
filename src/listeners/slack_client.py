@@ -8,6 +8,7 @@ from slackclient import SlackClient
 
 from src.listeners import CreateSingleton
 from utilities import logger
+from utilities.os_level import run_shell
 
 
 class ListenerClient(metaclass=CreateSingleton):
@@ -38,9 +39,10 @@ class ListenerClient(metaclass=CreateSingleton):
             if not channel:
                 channel = self.default_channel
             logger.info("Sending Payload to slack")
-            encoded_payload = json.dumps(payload, sort_keys=True, indent=4)
+
             headers = {'Content-type': 'application/json'}
             if not slack_format:
+                encoded_payload = json.dumps(payload, sort_keys=True, indent=4)
                 r = requests.post(self.slacker,
                                   json={
                                       "text": "```%s```" % encoded_payload,
@@ -49,14 +51,17 @@ class ListenerClient(metaclass=CreateSingleton):
                                       "mrkdwn": "true"
                                   },
                                   headers=headers)
+                text = r.text
+                rc = r.status_code
             else:
+                payload["channel"] = channel
+                encoded_payload = json.dumps(payload, sort_keys=True, indent=4)
                 logger.debug("sending payload directly to slack")
-                r = requests.post(self.slacker,
-                                  data=str(payload),
-                                  headers=headers)
+                command = "curl -X POST --data-urlencode \'payload={PAYLOAD}\' {URL}"
+                rc, output, error = run_shell(command=command.format(PAYLOAD=encoded_payload, URL=self.slacker))
+                text = output + error
 
-            out = {"text": r.text, "sc": r.status_code}
-            r.close()
+            out = {"text": text, "sc": rc}
             logger.debug(out)
         except Exception as e:
             out = str(e)
@@ -99,12 +104,12 @@ class ListenerClient(metaclass=CreateSingleton):
                 else:
                     logger.debug("Slack channel already exists [%s]" % name)
             else:
-                out = "Error creating channel[%s:%s]" % (name,channel_create["error"])
+                out = "Error creating channel[%s:%s]" % (name, channel_create["error"])
                 self.notification(payload=out)
             return out
 
         except Exception as e:
-            logger.exception(e,exc_info=True)
+            logger.exception(e, exc_info=True)
             trace = "Error [%s] %s " % (e, trace)
             self.notification(payload=trace)
             return trace
