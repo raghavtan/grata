@@ -1,15 +1,15 @@
 {
-  'text': '',
+  'text': 'inventory-api-service',
   'channel': '#jenkins',
   'username': 'Jenkins',
   'icon_url': 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png',
   'attachments': [
     {
-      'title': 'LimeTray, analytics-ui-service , build #67',
-      'title_link': 'http://jenkins.limetray.com:8080/job/LimeTray/job/analytics-ui-service/job/develop/67/',
+      'title': 'LimeTray, inventory-api-service , build #420',
+      'title_link': 'http://jenkins.limetray.com:8080/job/LimeTray/job/inventory-api-service/job/develop/420/',
       'color': 'warning',
-      'author_name': 'Raghav Tandon',
-      'text': '@yash_limetray',
+      'author_name': 'Anmol Kelkar',
+      'text': '<@U7N7N7ZBN>',
       'mrkdwn_in': [
         'fields'
       ],
@@ -21,12 +21,12 @@
         },
         {
           'title': 'Results',
-          'value': 'Started build : analytics-ui-service on branch develop with build #67',
+          'value': 'Started build : inventory-api-service on branch develop with build #420',
           'short': True
         },
         {
           'title': 'Last Commit',
-          'value': 'updated github oauth token in dockerfile',
+          'value': 'Change-attributes: get Return materials api',
           'short': False
         }
       ]

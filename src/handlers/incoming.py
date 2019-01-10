@@ -11,15 +11,15 @@ from src.listeners.slack_client import ListenerClient
 from utilities import logger
 
 
-def service_name(payload,slack_payload_flag=False):
+def service_name(payload, slack_payload_flag=False):
     """
 
     :param payload:
     :return:
     """
     if slack_payload_flag:
-        name_service=payload["text"]
-        logger.info("::::::::::::::::::::::[ %s ]::::::::::::::::::::::"%name_service)
+        name_service = payload["text"]
+        logger.info("::::::::::::::::::::::[ %s ]::::::::::::::::::::::" % name_service)
     service = {"name": "sampler5"}
     return service
 
@@ -56,19 +56,18 @@ async def api(request: Request):
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
         logger.debug(payload.keys())
-        if ["attachments", "channel", "username"] in payload.keys():
+        if ["attachments", "channel", "username"] in list(payload.keys()):
             slack_direct_flag = True
             del payload["channel"]
         resp = dict(service=None,
                     channel=None,
                     notification=None)
-        svc = service_name(payload,slack_direct_flag)
+        svc = service_name(payload, slack_direct_flag)
         resp['service'] = svc
         if isinstance(resp["service"], dict):
             resp['channel'] = slc.create_channel(resp["service"]["name"])
 
         if isinstance(resp["channel"], dict):
-
             resp['notification'] = slc.notification(
                 channel=resp["channel"]["svc_channel"],
                 payload=payload,
