@@ -50,8 +50,9 @@ class ListenerClient(metaclass=CreateSingleton):
                                   },
                                   headers=headers)
             else:
+                logger.debug("sending payload directly to slack")
                 r = requests.post(self.slacker,
-                                  json=payload,
+                                  json=encoded_payload,
                                   headers=headers)
 
             out = {"text": r.text, "sc": r.status_code}

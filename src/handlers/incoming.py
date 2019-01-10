@@ -56,7 +56,7 @@ async def api(request: Request):
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
         logger.debug(payload.keys())
-        if ["attachments", "channel", "username"] in list(payload.keys()):
+        if "attachments" in list(payload.keys()) and "channel" in list(payload.keys()):
             slack_direct_flag = True
             del payload["channel"]
         resp = dict(service=None,
