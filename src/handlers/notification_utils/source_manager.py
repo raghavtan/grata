@@ -4,6 +4,9 @@
 
 
 class AlertsSource:
+    """
+
+    """
     slack = ["attachments", "channels"]
     bugnsag = ["account", "project"]
     logs = ["check_result", "stream"]
@@ -13,8 +16,12 @@ class AlertsSource:
 
     @classmethod
     def __key_set__(cls):
-        sources=[]
-        sources_list=list(AlertsSource.__dict__.keys())
+        """
+        
+        :return:
+        """
+        sources = []
+        sources_list = list(AlertsSource.__dict__.keys())
         for source in sources_list:
             if not source.startswith("__"):
                 sources.append(source)
@@ -23,12 +30,14 @@ class AlertsSource:
 
 
 def source_manager(payload=None):
-    sources_list= AlertsSource.__key_set__()
-    payload_keys=set(list(payload.keys()))
+    """
+
+    :param payload:
+    :return:
+    """
+    sources_list = AlertsSource.__key_set__()
+    payload_keys = set(list(payload.keys()))
     for source_name in sources_list:
-        sub_check=set(AlertsSource.__dict__[source_name])
+        sub_check = set(AlertsSource.__dict__[source_name])
         if sub_check.issubset(payload_keys):
             return source_name
-
-
-source_manager()
