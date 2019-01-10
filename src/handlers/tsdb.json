@@ -1,0 +1,38 @@
+{
+  "data": {
+    "series": [
+      {
+        "columns": [
+          "time",
+          "value"
+        ],
+        "name": "ActiveMQ_1_Queues",
+        "tags": {
+          "Environment": "infrastructure",
+          "Product": "grafan",
+          "Role": "grafan",
+          "consumer": "third-party",
+          "destinationName": "DLQ.Consumer.third-party-service.VirtualTopic.lt.third-party-service.zomato.update_menu",
+          "host": "172.22.4.134",
+          "jolokia_agent_url": "http://172.22.0.10:8161/api/jolokia",
+          "producer": "third-party",
+          "topic": "VirtualTopic.lt.third-party-service.zomato.update_menu"
+        },
+        "values": [
+          [
+            "2019-01-10T13:28:21Z",
+            0
+          ]
+        ]
+      }
+    ]
+  },
+  "details": "OK ActiveMQ-1-DLQ:destinationName=DLQ.Consumer.third-party-service.VirtualTopic.lt.third-party-service.zomato.update_menu",
+  "duration": 400000000000,
+  "id": "ActiveMQ-1-DLQ:destinationName=DLQ.Consumer.third-party-service.VirtualTopic.lt.third-party-service.zomato.update_menu",
+  "level": "OK",
+  "message": "Level : OK\nNAME : ActiveMQ-1-DLQ\nALERT ID : ActiveMQ-1-DLQ:destinationName=DLQ.Consumer.third-party-service.VirtualTopic.lt.third-party-service.zomato.update_menu\nDLQ SIZE : 0\nTIMESTAMP : 2019-01-10 13:28:21 +0000 UTC",
+  "previousLevel": "CRITICAL",
+  "recoverable": true,
+  "time": "2019-01-10T13:28:21Z"
+}

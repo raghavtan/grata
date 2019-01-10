@@ -13,6 +13,39 @@ from src.listeners.slack_client import ListenerClient
 from utilities import logger
 
 
+def payload_restructure(payload, source):
+    payload_restructured = payload
+    if source == "slack":
+        name_service = payload["text"]
+        payload_restructured["channel"] = name_service
+        payload_restructured["username"] = name_service
+    elif source == "tsdb":
+        color = dict(OK="good", WARNING="warning", CRITICAL="danger")
+        consumer = "%s-service" % payload["data"]["series"]["tags"]["consumer"]
+        name_service = consumer
+        queue = payload["data"]["series"]["tags"]["destinationName"]
+        topic = payload["data"]["series"]["tags"]["topic"]
+        value = payload["data"]["series"]["values"][0][1]
+        broker = payload["data"]["series"]["broker"]
+        text = "Queue: {QUEUE}\nBroker: {BROKER}\nTopic: {TOPIC}\nValue: {VALUE}".format(QUEUE=queue, BROKER=broker,
+                                                                                         TOPIC=topic, VALUE=value)
+        payload_restructured = {
+            "attachments": [
+                {
+                    "fallback": "Required plain-text summary of the attachment.",
+                    "color": color[payload["level"]],
+                    "author_name": "InfluxTSDB/QueryEngine",
+                    "title": name_service,
+                    "text": text,
+                }
+            ],
+            "channel": name_service,
+            "username": name_service,
+        }
+
+    return payload_restructured,name_service
+
+
 async def queue(request: Request):
     """
 
@@ -46,9 +79,9 @@ async def api(request: Request):
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
         source = source_manager(payload)
-        if source == "slack":
+        if source == "slack" or source == "tsdb":
             slack_direct_flag = True
-            del payload["channel"]
+            payload = payload_restructure(payload, source)
         resp = dict(service=None,
                     channel=None,
                     notification=None)

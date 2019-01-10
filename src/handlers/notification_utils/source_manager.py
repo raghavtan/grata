@@ -11,7 +11,7 @@ class AlertsSource:
     bugnsag = ["account", "project"]
     logs = ["check_result", "stream"]
     service = ["microservice"]
-    tsdb = []
+    tsdb = ["data","message","duration","level","previousLevel"]
     third_party = []
 
     @classmethod
