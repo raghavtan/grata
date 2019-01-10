@@ -1,0 +1,61 @@
+{
+  "check_result": {
+    "matching_messages": [],
+    "result_description": "Dummy alert to test notifications",
+    "triggered": true,
+    "triggered_at": "2019-01-10T09:53:20.842Z",
+    "triggered_condition": {
+      "created_at": "2019-01-10T09:53:20.842Z",
+      "creator_user_id": "rtandon",
+      "id": "c1559cc5-c19d-415a-ac75-31e53d6ae0a2",
+      "parameters": {},
+      "title": "Test Alert",
+      "type": "dummy"
+    }
+  },
+  "stream": {
+    "alert_conditions": [
+      {
+        "created_at": "2018-10-11T07:11:16.849Z",
+        "creator_user_id": "rtandon",
+        "id": "fbde5b0b-0ac7-4a28-8c70-7b9fc83b5452",
+        "parameters": {
+          "backlog": 0,
+          "grace": 0,
+          "repeat_notifications": false,
+          "threshold": 10,
+          "threshold_type": "LESS",
+          "time": 1
+        },
+        "title": "sample",
+        "type": "message_count"
+      },
+      {
+        "created_at": "2019-01-02T08:48:43.815Z",
+        "creator_user_id": "dev",
+        "id": "db33fb29-65db-4100-a058-84f75bf5845b",
+        "parameters": {
+          "backlog": 3,
+          "field": "message",
+          "grace": 5,
+          "repeat_notifications": true,
+          "value": "PUBLISH_MESSAGE"
+        },
+        "title": "Publish Failure Message",
+        "type": "field_content_value"
+      }
+    ],
+    "created_at": "2017-09-08T12:14:38.381Z",
+    "creator_user_id": "local:admin",
+    "description": "Stream containing all messages",
+    "disabled": false,
+    "id": "000000000000000000000001",
+    "index_set_id": "59b289ae5124a84a2794599c",
+    "is_default_stream": true,
+    "matching_type": "AND",
+    "outputs": [],
+    "remove_matches_from_default_stream": false,
+    "rules": [],
+    "title": "All messages"
+  }
+}

@@ -21,7 +21,6 @@ def run_shell(command,
     :return:
     # -------------------------------
     """
-    logger.debug( command)
 
     # -------------------------------
     # Subprocess linux command executor

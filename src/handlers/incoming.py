@@ -5,23 +5,12 @@
 from vibora.request import Request
 from vibora.responses import JsonResponse
 
+from src.handlers.notification_utils import service_name
+from src.handlers.notification_utils.source_manager import source_manager
 from src.listeners import CreateSingleton
 from src.listeners.kafka_client import KafkaPublish
 from src.listeners.slack_client import ListenerClient
 from utilities import logger
-
-
-def service_name(payload, slack_payload_flag=False):
-    """
-
-    :param payload:
-    :return:
-    """
-    if slack_payload_flag:
-        name_service = payload["text"]
-        logger.info("::::::::::::::::::::::[ %s ]::::::::::::::::::::::" % name_service)
-    service = {"name": "sampler5"}
-    return service
 
 
 async def queue(request: Request):
@@ -52,11 +41,13 @@ async def api(request: Request):
     try:
         logger.info("Received incoming alert %s" % request.url)
         slc = CreateSingleton.singleton_instances[ListenerClient]
+
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
         slack_direct_flag = False
         logger.debug(payload.keys())
-        if "attachments" in list(payload.keys()) and "channel" in list(payload.keys()):
+        source = source_manager(payload)
+        if source == "slack":
             slack_direct_flag = True
             del payload["channel"]
         resp = dict(service=None,

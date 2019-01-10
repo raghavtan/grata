@@ -1,0 +1,139 @@
+{
+  "account": {
+    "id": "552b77487765620fb5002a22",
+    "name": "LimeTray",
+    "url": "https://app.bugsnag.com/account/limetray-1?i=wh&m=fq"
+  },
+  "error": {
+    "app": {
+      "releaseStage": "prod",
+      "type": "app1.pos.limetray.infra",
+      "version": "1.5.5"
+    },
+    "appVersion": "1.5.5",
+    "context": "ActiveMQSession.java:771",
+    "device": {
+      "hostname": "app1.pos.limetray.infra",
+      "locale": "en_US",
+      "osName": "Linux",
+      "osVersion": "4.4.14-24.50.amzn1.x86_64"
+    },
+    "errorId": "5c2c5bad02647e0018189621",
+    "exceptionClass": "java.util.concurrent.ExecutionException",
+    "firstReceived": "2019-01-02T06:35:25.000Z",
+    "id": "5c3730eb0032be90dda60000",
+    "message": "java.lang.RuntimeException: javax.jms.IllegalStateException: The Session is closed",
+    "metaData": {
+      "Metadata": {
+        "x-request-id": null
+      },
+      "TL_MESSAGE": {
+        "ACTION_TYPE": "CREATE",
+        "PAYLOAD": "{\"className\":\"com.limetray.bo.models.Order\",\"payload\":\"{\\\"payload\\\":{\\\"bill_number\\\":\\\"0WAB-5896\\\",\\\"cloudsite_id\\\":5701,\\\"location_id\\\":29218,\\\"reference_bill_order\\\":\\\"0WAB-5896\\\",\\\"order_type\\\":\\\"DELIVERY\\\",\\\"client_creation_time\\\":1547120166627,\\\"order_details\\\":[{\\\"complemetory_quantity\\\":0,\\\"product_name\\\":\\\"Chicken Quest Taco\\\",\\\"product_price_id\\\":1105884,\\\"price\\\":130.0,\\\"quantity\\\":1,\\\"order_detail_addons\\\":[]},{\\\"complemetory_quantity\\\":0,\\\"product_name\\\":\\\"Double Margarita Pizza Veg\\\",\\\"product_price_id\\\":1105895,\\\"price\\\":130.0,\\\"quantity\\\":1,\\\"order_detail_addons\\\":[{\\\"addon_id\\\":996112,\\\"name\\\":\\\"No Name\\\",\\\"quantity\\\":1}]},{\\\"complemetory_quantity\\\":0,\\\"product_name\\\":\\\"Chicken Bomber Pizza\\\",\\\"product_price_id\\\":1105910,\\\"price\\\":140.0,\\\"quantity\\\":1,\\\"order_detail_addons\\\":[{\\\"addon_id\\\":994982,\\\"name\\\":\\\"No Name\\\",\\\"quantity\\\":1}]}]},\\\"action\\\":\\\"CREATE\\\",\\\"entity\\\":\\\"com.limetray.bo.models.Order\\\",\\\"requestId\\\":null}\"}",
+        "TL_ACTION": "PUBLISH_MESSAGE",
+        "TOPIC": "lt.pos-api-service.order"
+      },
+      "device": {
+        "osArch": "amd64",
+        "runtimeName": "OpenJDK Runtime Environment",
+        "runtimeVersion": "1.8.0_91-b14"
+      }
+    },
+    "occurrences": 14000,
+    "receivedAt": "2019-01-10T11:47:55.487Z",
+    "releaseStage": "prod",
+    "severity": "warning",
+    "stackTrace": [
+      {
+        "file": "FutureTask.java",
+        "inProject": false,
+        "lineNumber": "122",
+        "method": "java.util.concurrent.FutureTask.report"
+      },
+      {
+        "file": "FutureTask.java",
+        "inProject": false,
+        "lineNumber": "192",
+        "method": "java.util.concurrent.FutureTask.get"
+      },
+      {
+        "file": "LtTLErrorMessageEvaluator.java",
+        "inProject": false,
+        "lineNumber": "78",
+        "method": "com.limetray.helper.utils.tranportlayer.LtTLErrorMessageEvaluator.evaluateFutureForErrors"
+      },
+      {
+        "file": "LtTLErrorMessageEvaluator.java",
+        "inProject": false,
+        "lineNumber": "38",
+        "method": "com.limetray.helper.utils.tranportlayer.LtTLErrorMessageEvaluator.evaluateFuturesForErrors"
+      },
+      {
+        "file": "<generated>",
+        "inProject": false,
+        "lineNumber": "-1",
+        "method": "com.limetray.helper.utils.tranportlayer.LtTLErrorMessageEvaluator$$FastClassBySpringCGLIB$$b27e8d20.invoke"
+      },
+      {
+        "file": "MethodProxy.java",
+        "inProject": false,
+        "lineNumber": "204",
+        "method": "org.springframework.cglib.proxy.MethodProxy.invoke"
+      },
+      {
+        "file": "CglibAopProxy.java",
+        "inProject": false,
+        "lineNumber": "720",
+        "method": "org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint"
+      },
+      {
+        "file": "ReflectiveMethodInvocation.java",
+        "inProject": false,
+        "lineNumber": "157",
+        "method": "org.springframework.aop.framework.ReflectiveMethodInvocation.proceed"
+      },
+      {
+        "file": "AsyncExecutionInterceptor.java",
+        "inProject": false,
+        "lineNumber": "115",
+        "method": "org.springframework.aop.interceptor.AsyncExecutionInterceptor$1.call"
+      },
+      {
+        "file": "FutureTask.java",
+        "inProject": false,
+        "lineNumber": "266",
+        "method": "java.util.concurrent.FutureTask.run"
+      },
+      {
+        "file": "ThreadPoolExecutor.java",
+        "inProject": false,
+        "lineNumber": "1142",
+        "method": "java.util.concurrent.ThreadPoolExecutor.runWorker"
+      },
+      {
+        "file": "ThreadPoolExecutor.java",
+        "inProject": false,
+        "lineNumber": "617",
+        "method": "java.util.concurrent.ThreadPoolExecutor$Worker.run"
+      },
+      {
+        "file": "Thread.java",
+        "inProject": false,
+        "lineNumber": "745",
+        "method": "java.lang.Thread.run"
+      }
+    ],
+    "status": "open",
+    "url": "https://app.bugsnag.com/limetray-1/pos-server-v3-production/errors/5c2c5bad02647e0018189621?event_id=5c3730eb0032be90dda60000&i=wh&m=fq",
+    "user": {}
+  },
+  "project": {
+    "id": "562f693b7765625432003fe4",
+    "name": "POS-Server V3 Production",
+    "url": "https://app.bugsnag.com/limetray-1/pos-server-v3-production?i=wh&m=fq"
+  },
+  "trigger": {
+    "message": "14000th event",
+    "type": "powerTen"
+  }
+}
