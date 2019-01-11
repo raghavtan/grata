@@ -9,7 +9,7 @@ class AlertsSource:
 
     """
     jenkins = ["attachments", "channel"]
-    bugnsag = ["account", "project"]
+    bugsnag = ["account", "project"]
     logs = ["check_result", "stream"]
     service = ["microservice"]
     tsdb = ["data", "message", "duration", "level", "previousLevel"]

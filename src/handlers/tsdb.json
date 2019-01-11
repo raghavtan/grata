@@ -1,4 +1,4 @@
-{
+[{
   "data": {
     "series": [
       {
@@ -13,6 +13,7 @@
           "Role": "grafan",
           "consumer": "third-party",
           "destinationName": "DLQ.Consumer.third-party-service.VirtualTopic.lt.third-party-service.zomato.update_menu",
+          "":                     "Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User"
           "host": "172.22.4.134",
           "jolokia_agent_url": "http://172.22.0.10:8161/api/jolokia",
           "producer": "third-party",
@@ -35,4 +36,38 @@
   "previousLevel": "CRITICAL",
   "recoverable": true,
   "time": "2019-01-10T13:28:21Z"
-}
+},
+{
+  'id': 'Queue Slow Consumption [ActiveMQ1]:destinationName=Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User',
+  'message': 'Queue Slow Consumption [ActiveMQ1]\nQueue: Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User\nGrowth rate: 105\nCRITICAL',
+  'details': '{&#34;Name&#34;:&#34;ActiveMQ_1_Queues&#34;,&#34;TaskName&#34;:&#34;Queue-Slow-Consumption&#34;,&#34;Group&#34;:&#34;destinationName=Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User&#34;,&#34;Tags&#34;:{&#34;destinationName&#34;:&#34;Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User&#34;},&#34;ServerInfo&#34;:{&#34;Hostname&#34;:&#34;localhost&#34;,&#34;ClusterID&#34;:&#34;da7b8041-df65-4b5f-906a-237dda192e50&#34;,&#34;ServerID&#34;:&#34;642c22ca-e630-4e05-a2c8-e5ff7dbcf8a4&#34;},&#34;ID&#34;:&#34;Queue Slow Consumption [ActiveMQ1]:destinationName=Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User&#34;,&#34;Fields&#34;:{&#34;current.value&#34;:560,&#34;past.value&#34;:455,&#34;value&#34;:105},&#34;Level&#34;:&#34;CRITICAL&#34;,&#34;Time&#34;:&#34;2019-01-11T07:27:41Z&#34;,&#34;Duration&#34;:0,&#34;Message&#34;:&#34;Queue Slow Consumption [ActiveMQ1]\\nQueue: Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User\\nGrowth rate: 105\\nCRITICAL&#34;}\n',
+  'time': '2019-01-11T07:27:41Z',
+  'duration': 0,
+  'level': 'CRITICAL',
+  'data': {
+    'series': [
+      {
+        'name': 'ActiveMQ_1_Queues',
+        'tags': {
+          'destinationName': 'Consumer.neutrino-service.VirtualTopic.lt.people-service.v1.User'
+        },
+        'columns': [
+          'time',
+          'current.value',
+          'past.value',
+          'value'
+        ],
+        'values': [
+          [
+            '2019-01-11T07:27:41Z',
+            560,
+            455,
+            105
+          ]
+        ]
+      }
+    ]
+  },
+  'previousLevel': 'OK',
+  'recoverable': True
+}]
