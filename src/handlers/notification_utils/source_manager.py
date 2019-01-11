@@ -7,11 +7,11 @@ class AlertsSource:
     """
 
     """
-    slack = ["attachments", "channel"]
+    jenkins = ["attachments", "channel"]
     bugnsag = ["account", "project"]
     logs = ["check_result", "stream"]
     service = ["microservice"]
-    tsdb = ["data","message","duration","level","previousLevel"]
+    tsdb = ["data", "message", "duration", "level", "previousLevel"]
     third_party = []
 
     @classmethod
@@ -35,9 +35,13 @@ def source_manager(payload=None):
     :param payload:
     :return:
     """
+    slack_direct_sources = ["jenkins", "tsdb"]
+    slack_direct_flag = False
     sources_list = AlertsSource.__key_set__()
     payload_keys = set(list(payload.keys()))
     for source_name in sources_list:
         sub_check = set(AlertsSource.__dict__[source_name])
         if sub_check.issubset(payload_keys):
-            return source_name
+            if source_name in slack_direct_sources:
+                slack_direct_flag = True
+            return source_name, slack_direct_flag
