@@ -2,7 +2,7 @@
 
 """
 import re
-
+import time
 from utilities import logger
 
 tsdb_amq_regex = r".*\.(?P<consumer>\S+)-service\.VirtualTopic\.[Ll][tT]\.(?P<producer>\S+)-service\S*"
@@ -28,8 +28,8 @@ def payload_multiplex(payload, source):
             alert_username = "DLQ/Dead Queue Threshold"
         else:
             alert_username = "Consumer-Queue Slow Consumption"
-        tl_1_dashboard = "http://tl-dashboard.limetray.com:8161/admin/browse.jsp?JMSDestination="
-        tl_2_dashboard = "http://tl-dashboard-2.limetray.com:8161/admin/browse.jsp?JMSDestination="
+        tl_1_dashboard = "tl-dashboard.limetray.com:8161/admin/browse.jsp?JMSDestination="
+        tl_2_dashboard = "tl-dashboard-2.limetray.com:8161/admin/browse.jsp?JMSDestination="
         if queue.endswith("1"):
             tl_dashboard = tl_1_dashboard + queue
         else:
@@ -41,13 +41,14 @@ def payload_multiplex(payload, source):
                     "color": color[payload["level"]],
                     "author_name": "InfluxTSDB/QueryEngine",
                     "title": name_service,
-                    "text": text,
+                    "text": "%s\n%s"%(text,tl_dashboard),
+                    "footer": "Limetray Engineering API",
+                    "ts": int(time.time())
 
                 }
             ],
             "channel": name_service,
             "username": alert_username,
-            "url": tl_dashboard
         }
     else:
         name_service = "sampler5"
