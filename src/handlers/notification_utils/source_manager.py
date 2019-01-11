@@ -3,6 +3,7 @@
 """
 from utilities import logger
 
+
 class AlertsSource:
     """
 
@@ -35,7 +36,7 @@ def source_manager(payload=None):
     :param payload:
     :return:
     """
-    slack_direct_sources = ["jenkins", "tsdb"]
+    slack_direct_sources = ["jenkins", "tsdb", "bugsnag"]
     slack_direct_flag = False
     sources_list = AlertsSource.__key_set__()
     payload_keys = set(list(payload.keys()))
@@ -44,5 +45,5 @@ def source_manager(payload=None):
         if sub_check.issubset(payload_keys):
             if source_name in slack_direct_sources:
                 slack_direct_flag = True
-            logger.debug("Source: %s |AND| Flag: %s"%(source_name, slack_direct_flag))
+            logger.debug("Source: %s |AND| Flag: %s" % (source_name, slack_direct_flag))
             return source_name, slack_direct_flag
