@@ -12,6 +12,8 @@ slackclient = "*"
 requests = "*"
 kafka-python = "*"
 vistir = "*"
+kubernetes = "*"
+kubernetes-py = "*"
 
 [dev-packages]
 

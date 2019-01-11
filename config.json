@@ -10,5 +10,6 @@
   "kafka_host":"logs.limetray.infra:9092",
   "kafka_alerts_topic":"random",
   "alert_queue":"False",
-  "slack_default_channel":"devops"
+  "slack_default_channel":"devops",
+  "kube_config": "config/kube-prod.yaml"
 }

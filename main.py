@@ -7,7 +7,8 @@ from src.server import Server
 from utilities import Config
 from utilities.termination_protection import TerminateProtected
 from utilities import logger
-
+import os
+BASE_PATH=os.path.abspath(os.getcwd())
 
 def main():
     """
@@ -18,6 +19,7 @@ def main():
         try:
             with open('config.json') as f:
                 config = Config(json.load(f))
+                config.home_path=BASE_PATH
                 server = Server(config)
                 server.load_routes()
                 server.start()

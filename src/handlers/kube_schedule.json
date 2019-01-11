@@ -1,0 +1,30 @@
+{
+  'id': 'Kubernetes Production [CPU]:nodename=ip-172-22-0-202.ap-southeast-1.compute.internal',
+  'message': '',
+  'details': '{&#34;Name&#34;:&#34;cpu/node_utilization&#34;,&#34;TaskName&#34;:&#34;chronograf-v1-c52c6f6a-03e1-4de0-b20d-e58e1e291404&#34;,&#34;Group&#34;:&#34;nodename=ip-172-22-0-202.ap-southeast-1.compute.internal&#34;,&#34;Tags&#34;:{&#34;nodename&#34;:&#34;ip-172-22-0-202.ap-southeast-1.compute.internal&#34;},&#34;ServerInfo&#34;:{&#34;Hostname&#34;:&#34;localhost&#34;,&#34;ClusterID&#34;:&#34;da7b8041-df65-4b5f-906a-237dda192e50&#34;,&#34;ServerID&#34;:&#34;642c22ca-e630-4e05-a2c8-e5ff7dbcf8a4&#34;},&#34;ID&#34;:&#34;Kubernetes Production [CPU]:nodename=ip-172-22-0-202.ap-southeast-1.compute.internal&#34;,&#34;Fields&#34;:{&#34;value&#34;:0.785},&#34;Level&#34;:&#34;CRITICAL&#34;,&#34;Time&#34;:&#34;2019-01-11T08:25:30Z&#34;,&#34;Duration&#34;:0,&#34;Message&#34;:&#34;&#34;}\n',
+  'time': '2019-01-11T08:25:30Z',
+  'duration': 0,
+  'level': 'CRITICAL',
+  'data': {
+    'series': [
+      {
+        'name': 'cpu/node_utilization',
+        'tags': {
+          'nodename': 'ip-172-22-0-202.ap-southeast-1.compute.internal'
+        },
+        'columns': [
+          'time',
+          'value'
+        ],
+        'values': [
+          [
+            '2019-01-11T08:25:30Z',
+            0.785
+          ]
+        ]
+      }
+    ]
+  },
+  'previousLevel': 'OK',
+  'recoverable': True
+}

@@ -26,7 +26,11 @@ routes = {
 
         "/queue": RouteData(cache=None,
                             methods=['GET', 'POST'],
-                            handler=incoming.queue)
+                            handler=incoming.queue),
+
+        "/exec": RouteData(cache=None,
+                            methods=['GET', 'POST'],
+                            handler=incoming.api)
     }
 
 }

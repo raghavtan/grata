@@ -68,3 +68,27 @@ async def api(request: Request):
         resp = {"error": str.encode(str(e))}
         logger.error(resp)
         return JsonResponse(resp, status_code=status)
+
+
+# async def exec(request: Request):
+#     """
+#
+#     :param request:
+#     :return:
+#     """
+#     status = 400
+#     try:
+#         logger.info("Received incoming kuber alert trigger %s" % request.url)
+#         slc = CreateSingleton.singleton_instances[ListenerClient]
+#
+#         payload = await request.json()
+#         logger.debug("Received alert payload\n%s" % payload)
+#         level=payload["level"]
+#         node_name=payload["series"][0]["tags"]["nodename"]
+#
+#         logger.info("Sent payload to slack %s " % resp)
+#         return JsonResponse(resp, status_code=status)
+#     except Exception as e:
+#         resp = {"error": str.encode(str(e))}
+#         logger.error(resp)
+#         return JsonResponse(resp, status_code=status)

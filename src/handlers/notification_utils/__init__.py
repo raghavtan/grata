@@ -21,7 +21,7 @@ def payload_multiplex(payload, source):
         consumer = "%s-service" % queue_name_parts["consumer"]
         name_service = consumer
         value = payload["data"]["series"][0]["values"][0][-1]
-        broker = payload["data"]["series"][0]["name"].replace("_Queues")
+        broker = payload["data"]["series"][0]["name"].replace("_Queues","")
         text = "Queue: {QUEUE}\nBroker: {BROKER}\nValue: {VALUE}".format(QUEUE=queue, BROKER=broker, VALUE=value)
         tl_1_dashboard="http://tl-dashboard.limetray.com:8161/admin/browse.jsp?JMSDestination="
         tl_2_dashboard="http://tl-dashboard.limetray.com:8161/admin/browse.jsp?JMSDestination="
