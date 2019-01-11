@@ -6,7 +6,7 @@ from utilities import logger
 
 def payload_multiplex(payload, source):
     payload_restructured = payload
-    if source == "slack":
+    if source == "jenkins":
         name_service = payload["text"]
         payload_restructured["channel"] = name_service
         payload_restructured["username"] = name_service
