@@ -1,7 +1,7 @@
 """
 
 """
-
+from utilities import logger
 
 class AlertsSource:
     """
@@ -44,4 +44,5 @@ def source_manager(payload=None):
         if sub_check.issubset(payload_keys):
             if source_name in slack_direct_sources:
                 slack_direct_flag = True
+            logger.debug("Source: %s |AND| Flag: %s"%(source_name, slack_direct_flag))
             return source_name, slack_direct_flag

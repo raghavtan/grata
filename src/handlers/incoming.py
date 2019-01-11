@@ -45,7 +45,7 @@ async def api(request: Request):
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
         source, slack_direct_flag = source_manager(payload)
-        payload, svc = payload_multiplex(payload, source)
+        payload_new, svc = payload_multiplex(payload, source)
         resp = dict(service=None,
                     channel=None,
                     notification=None)
@@ -56,7 +56,7 @@ async def api(request: Request):
         if isinstance(resp["channel"], dict):
             resp['notification'] = slc.notification(
                 channel=resp["channel"]["svc_channel"],
-                payload=payload,
+                payload=payload_new,
                 slack_format=slack_direct_flag
             )
         if isinstance(resp["notification"], dict):

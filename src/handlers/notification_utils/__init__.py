@@ -34,7 +34,7 @@ def payload_multiplex(payload, source):
             "username": name_service,
         }
     else:
-        name_service ="sampler5"
-    logger.info("::::::::::::::::::::::[ %s ]::::::::::::::::::::::" % name_service)
+        name_service = "sampler5"
+    logger.debug("Service: %s\nNew Payload: %s" % (name_service,payload_restructured))
 
     return payload_restructured, {"name": name_service}
