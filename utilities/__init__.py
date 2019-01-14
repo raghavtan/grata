@@ -91,12 +91,12 @@ class KafkaHandler(logging.Handler):
             self.release()
 
 
-json_logging.ENABLE_JSON_LOGGING = True
+json_logging.ENABLE_JSON_LOGGING = False
 json_logging.COMPONENT_NAME="Grata"
 json_logging.init()
 logger = logging.getLogger("root")
 logger.setLevel(logging.DEBUG)
-kh = KafkaHandler(['logs.limetray.infra:9092'], 'infrastructure')
-logger.addHandler(kh)
+# kh = KafkaHandler(['logs.limetray.infra:9092'], 'infrastructure')
+# logger.addHandler(kh)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 logger.info("Kafka Logger Initialized")
