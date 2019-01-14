@@ -10,7 +10,7 @@ from src.handlers.notification_utils.source_manager import source_manager
 from src.listeners import CreateSingleton
 from src.listeners.kafka_client import KafkaPublish
 from src.listeners.slack_client import ListenerClient
-from main import logger
+from utilities import logger
 
 
 async def queue(request: Request):

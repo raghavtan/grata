@@ -7,7 +7,7 @@ import requests
 from slackclient import SlackClient
 
 from src.listeners import CreateSingleton
-from main import logger
+from utilities import logger
 from utilities.os_level import run_shell
 
 
