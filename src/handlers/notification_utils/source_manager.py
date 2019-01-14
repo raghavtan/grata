@@ -1,7 +1,7 @@
 """
 
 """
-from utilities import logger
+from main import logger
 
 
 class AlertsSource:
