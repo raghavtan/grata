@@ -1,0 +1,22 @@
+{
+  "autoConfig" : true,
+  "version": "1.0.0",
+  "port" : 5000,
+  "environment" : [
+    {
+      "name" : "APP_ENV",
+      "value" : "{{namespace}}"
+    },
+    {
+      "name" : "APP_PORT",
+      "value" : "8001"
+    }
+
+  ],
+  "tier" : "infrastructure",
+  "owner" : "raghav",
+  "labels" : {
+    "group": "alerting"
+
+  }
+}
