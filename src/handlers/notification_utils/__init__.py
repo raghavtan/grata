@@ -3,7 +3,7 @@
 """
 import re
 import time
-from main import logger
+from utilities import logger
 
 tsdb_amq_regex = r".*\.(?P<consumer>\S+)-service\.VirtualTopic\.[Ll][tT]\.(?P<producer>\S+)-service\S*"
 amq_regex = re.compile(tsdb_amq_regex)

@@ -6,7 +6,7 @@ import json
 from kafka import KafkaProducer
 
 from src.listeners import CreateSingleton
-from main import logger
+from utilities import logger
 
 
 # handle exception
