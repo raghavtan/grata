@@ -92,6 +92,7 @@ class KafkaHandler(logging.Handler):
 
 
 json_logging.ENABLE_JSON_LOGGING = True
+json_logging.COMPONENT_NAME="Grata"
 json_logging.init()
 logger = logging.getLogger("root")
 logger.setLevel(logging.DEBUG)
