@@ -117,7 +117,6 @@ class Server(object):
         logger.info("Starting Server %s" % self.config.name)
         self.app.run(host=self.config.host,
                      port=self.config.port,
-                     debug=bool(self.config.debug),
                      )
 
     def stop(self):
