@@ -13,6 +13,7 @@ class AlertsSource:
     logs = ["check_result", "stream"]
     service = ["microservice"]
     tsdb = ["data", "message", "duration", "level", "previousLevel"]
+    sns = ["UnsubscribeURL", "TopicArn"]
     third_party = []
 
     @classmethod
@@ -36,7 +37,7 @@ def source_manager(payload=None):
     :param payload:
     :return:
     """
-    slack_direct_sources = ["jenkins", "tsdb", "bugsnag"]
+    slack_direct_sources = ["jenkins", "tsdb", "bugsnag","sns"]
     slack_direct_flag = False
     sources_list = AlertsSource.__key_set__()
     payload_keys = set(list(payload.keys()))
