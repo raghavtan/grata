@@ -46,10 +46,9 @@ async def api(request: Request):
         logger.debug("Received alert payload\n%s" % payload)
         source, slack_direct_flag = source_manager(payload)
         payload_new, svc = payload_multiplex(payload, source)
-        resp = dict(service=None,
+        resp = dict(service=svc,
                     channel=None,
                     notification=None)
-        resp['service'] = svc
         if isinstance(resp["service"], dict):
             resp['channel'] = slc.create_channel(resp["service"]["name"])
 
