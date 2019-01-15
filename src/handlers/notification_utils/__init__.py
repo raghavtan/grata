@@ -55,8 +55,8 @@ def payload_multiplex(payload, source):
         color = dict(OK="good", ALARM="danger")
         message = json.loads(payload_restructured["Message"])
         queue = message["Trigger"]["MetricName"]
-        broker = message["Trigger"]["Dimensions"]
-        value = message["Threshold"]
+        broker = message["Trigger"]["Dimensions"][0]["value"]
+        value = message["Trigger"]["Threshold"]
 
         text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker,
                                                                                      VALUE=value)
