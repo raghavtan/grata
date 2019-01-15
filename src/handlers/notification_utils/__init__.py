@@ -54,8 +54,8 @@ def payload_multiplex(payload, source):
     elif source == "sns":
         color = dict(OK="good", ALARM="danger")
         message = json.loads(payload_restructured["Message"])
-        queue = message["MetricName"]
-        broker = message["Dimensions"]
+        queue = message["Trigger"]["MetricName"]
+        broker = message["Trigger"]["Dimensions"]
         value = message["Threshold"]
 
         text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker,
