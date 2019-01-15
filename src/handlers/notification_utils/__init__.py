@@ -10,13 +10,13 @@ amq_regex = re.compile(tsdb_amq_regex)
 
 
 def payload_multiplex(payload, source):
+    color = dict(OK="good", WARNING="warning", CRITICAL="danger")
     payload_restructured = payload
     if source == "jenkins":
         name_service = payload["text"]
         payload_restructured["channel"] = name_service
         payload_restructured["username"] = name_service
     elif source == "tsdb":
-        color = dict(OK="good", WARNING="warning", CRITICAL="danger")
         queue = payload["data"]["series"][0]["tags"]["destinationName"]
         queue_name_parts = amq_regex.match(queue).groupdict()
         consumer = "%s-service" % queue_name_parts["consumer"]
@@ -49,6 +49,30 @@ def payload_multiplex(payload, source):
             ],
             "channel": name_service,
             "username": alert_username,
+        }
+    elif source == "sns":
+        color = dict(OK="good", ALARM="danger")
+        message=dict(payload_restructured["Message"])
+        queue=message["MetricName"]
+        broker=message["Dimensions"]
+        value=message["Threshold"]
+
+        text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker, VALUE=value)
+        payload_restructured = {
+            "attachments": [
+                {
+                    "fallback": "Required plain-text summary of the attachment.",
+                    "color": message["NewStateValue"],
+                    "author_name": "Amazon Web Services/SNS [CloudCompliance]",
+                    "title": color[message["AlarmName"]],
+                    "text": "%s"%text,
+                    "footer": "Limetray Engineering API",
+                    "ts": int(time.time())
+
+                }
+            ],
+            "channel": "prod-infra-alerts",
+            "username": "AWS/SNS Notification",
         }
     else:
         name_service = "sampler5"
