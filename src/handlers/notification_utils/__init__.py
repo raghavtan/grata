@@ -64,9 +64,9 @@ def payload_multiplex(payload, source):
             "attachments": [
                 {
                     "fallback": "Required plain-text summary of the attachment.",
-                    "color": message["NewStateValue"],
+                    "color": color[message["NewStateValue"]],
                     "author_name": "Amazon Web Services/SNS [CloudCompliance]",
-                    "title": color[message["AlarmName"]],
+                    "title": message["AlarmName"],
                     "text": "%s" % text,
                     "footer": "LimeTray Engineering API",
                     "ts": int(time.time())
