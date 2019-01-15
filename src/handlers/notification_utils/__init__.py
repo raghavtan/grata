@@ -3,6 +3,7 @@
 """
 import re
 import time
+import json
 from utilities import logger
 
 tsdb_amq_regex = r".*\.(?P<consumer>\S+)-service\.VirtualTopic\.[Ll][tT]\.(?P<producer>\S+)-service\S*"
@@ -41,8 +42,8 @@ def payload_multiplex(payload, source):
                     "color": color[payload["level"]],
                     "author_name": "InfluxTSDB/QueryEngine",
                     "title": name_service,
-                    "text": "%s\n%s"%(text,tl_dashboard),
-                    "footer": "Limetray Engineering API",
+                    "text": "%s\n%s" % (text, tl_dashboard),
+                    "footer": "LimeTray Engineering API",
                     "ts": int(time.time())
 
                 }
@@ -52,12 +53,13 @@ def payload_multiplex(payload, source):
         }
     elif source == "sns":
         color = dict(OK="good", ALARM="danger")
-        message=dict(payload_restructured["Message"])
-        queue=message["MetricName"]
-        broker=message["Dimensions"]
-        value=message["Threshold"]
+        message = json.loads(payload_restructured["Message"])
+        queue = message["MetricName"]
+        broker = message["Dimensions"]
+        value = message["Threshold"]
 
-        text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker, VALUE=value)
+        text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker,
+                                                                                     VALUE=value)
         payload_restructured = {
             "attachments": [
                 {
@@ -65,8 +67,8 @@ def payload_multiplex(payload, source):
                     "color": message["NewStateValue"],
                     "author_name": "Amazon Web Services/SNS [CloudCompliance]",
                     "title": color[message["AlarmName"]],
-                    "text": "%s"%text,
-                    "footer": "Limetray Engineering API",
+                    "text": "%s" % text,
+                    "footer": "LimeTray Engineering API",
                     "ts": int(time.time())
 
                 }
