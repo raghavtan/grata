@@ -91,7 +91,7 @@ def payload_multiplex(payload, source):
             "username": "AWS/SNS Notification",
         }
     else:
-        name_service = "sampler5"
-    logger.debug("Service: %s\nNew Payload: %s" % (name_service, payload_restructured))
+        channel = "sampler5"
+    logger.debug("Channel: %s\nNew Payload: %s" % (channel, payload_restructured))
 
     return payload_restructured, {"name": channel}
