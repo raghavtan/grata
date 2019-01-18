@@ -1,6 +1,7 @@
 """
 
 """
+import asyncio
 
 
 class CreateSingleton(type):
@@ -12,9 +13,13 @@ class CreateSingleton(type):
         return cls.singleton_instances[cls]
 
     def __del__(cls):
+        # loop=asyncio.get_event_loop()
+        # loop.create_task(cls.singleton_instances[cls].close())
         cls.singleton_instances[cls].close()
 
     @staticmethod
     def __clean_all__():
         for _instance in CreateSingleton.singleton_instances:
             _instance.__del__()
+
+

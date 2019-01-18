@@ -33,6 +33,7 @@ class ListenerClient(metaclass=CreateSingleton):
 
         :param channel:
         :param payload:
+        :param slack_format:
         :return:
         """
         try:
@@ -73,7 +74,7 @@ class ListenerClient(metaclass=CreateSingleton):
 
         :return:
         """
-        # logger.debug("Closed Slack connection pool")
+        logger.debug("Closed Slack connection pool")
 
     def channels(self):
         """

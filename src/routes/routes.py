@@ -10,8 +10,8 @@ routes = {
                    parameters=""),
     "/health": RouteData(cache=True,
                          handler=base.health),
-    "/_stats": RouteData(cache=True,
-                         handler=base.stats),
+    "/stats": RouteData(cache=None,
+                        handler=base.stats),
     "/alerts": {
         "/v1": {
             "/<source>": RouteData(cache=True,
@@ -29,8 +29,8 @@ routes = {
                             handler=incoming.queue),
 
         "/exec": RouteData(cache=None,
-                            methods=['GET', 'POST'],
-                            handler=incoming.api)
+                           methods=['GET', 'POST'],
+                           handler=incoming.api)
     }
 
 }
