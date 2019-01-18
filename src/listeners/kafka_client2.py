@@ -1,9 +1,10 @@
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-"""
+import asyncio
 import json
 
-from kafka import KafkaProducer
+from aiokafka import AIOKafkaProducer
 
 from src.listeners import CreateSingleton
 from utilities import logger
@@ -25,10 +26,10 @@ def dict_to_binary(the_dict):
 
 class KafkaPublish(metaclass=CreateSingleton):
     """
-
+    siege -c50 -t10S -b --content-type "application/json" 'http://localhost:8001/incoming/queue POST { "pay_key":"pay_value"}
     """
 
-    def __init__(self, config):
+    def __init__(self, config, loop):
         """
 
         :param config:
@@ -37,44 +38,43 @@ class KafkaPublish(metaclass=CreateSingleton):
             self.config = config
             if self.config.enable_queue:
                 self.alert_topic = config.kafka_alerts_topic
-                self.publisher = KafkaProducer(
-                    bootstrap_servers=config.kafka_host,
-                    # value_serializer=lambda m: json.dumps(m).encode('ascii'),
-                    # compression_type='gzip',
-                    # retries=3,
-                    # acks=1
-                )
+                self.publisher = AIOKafkaProducer(bootstrap_servers=self.config.kafka_host,
+                                                  client_id="Grata",
+                                                  value_serializer=lambda m: json.dumps(m).encode('ascii'),
+                                                  loop=loop,
+                                                  enable_idempotence=True
+                                                  )
+                self.publisher.start()
+                asyncio.ensure_future(self.publisher.start())
+                # print(self.publisher.client.hosts)
+                # print(self.publisher.client.fetch_all_metadata())
+                # asyncio.ensure_future(self.publisher.client.fetch_all_metadata())
+                # print(self.publisher._metadata)
+
             else:
                 self.publisher = {
                     "Kafka_queues": "Disabled",
-                    "message": "Currently working in API mode Set queues to true in config"}
+                    "message": "Currently working in API mode, set queues to True in config"}
         except Exception as e:
-            logger.exception(e)
-            raise
+            logger.exception(e,exc_info=True)
+            asyncio.get_event_loop().close()
 
-    def on_send_success(self, record_metadata):
-        logger.debug('Success Callback on Publish[%s:%s]' % (record_metadata.topic, record_metadata.offset))
+    async def publish(self, payload):
 
-    def on_send_error(self, excp):
-        logger.error('Error callback on publish', exc_info=excp)
-
-    def publish(self, payload):
-        """
-
-        :param payload:
-        :return:
-        """
         if self.config.enable_queue:
             try:
                 logger.debug("Publishing to topic[%s] message[%s] " % (self.alert_topic, payload))
-                resp = self.publisher.send(
-                    self.alert_topic,
-                    b"hello",
-                ).add_callback(self.on_send_success).add_errback(self.on_send_error)
-                return resp.__dict__
-            except Exception as e:
-                logger.exception(e)
-                return e
+                send_future = await self.publisher.send(self.alert_topic, {"msg": payload, "source": "Grata"})
+                # await asyncio.sleep(1)
+                logger.debug(await send_future)
+                return send_future
+            except Exception as Kaf:
+                print(Kaf)
+                logger.exception("Catching Exception %s" % Kaf, exc_info=True)
+            # except KafkaTimeoutError:
+            #     print("produce timeout... maybe we want to resend data again?")
+            # except KafkaError as err:
+            #     print("some kafka error on produce: {}".format(err))
         else:
             return self.publisher
 
@@ -85,8 +85,11 @@ class KafkaPublish(metaclass=CreateSingleton):
         """
         try:
             if self.config.enable_queue:
-                self.publisher.flush(timeout=5)
-                self.publisher.close()
+                self.publisher.flush()
+                self.publisher.stop()
+                asyncio.ensure_future(self.publisher.flush())
+                asyncio.ensure_future(self.publisher.stop())
+                logger.debug("Closed Kafka connection pool")
         except Exception as e:
             logger.error(e)
-        logger.debug("Closed Kafka connection pool")
+

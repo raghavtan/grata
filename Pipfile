@@ -14,6 +14,8 @@ kafka-python = "*"
 vistir = "*"
 kubernetes = "*"
 kubernetes-py = "*"
+afkak = "*"
+aiokafka = "*"
 
 [dev-packages]
 
