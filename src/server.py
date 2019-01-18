@@ -1,6 +1,8 @@
 """
 
 """
+import asyncio
+
 from vibora import Request
 from vibora import Vibora
 from vibora.hooks import Hook, Events
@@ -9,8 +11,9 @@ from vibora.router import RouterStrategy
 from vibora.router.router import Route
 
 from src.listeners import CreateSingleton
+from src.listeners.internal_statistics import Statistics
+from src.listeners.kafka_client2 import KafkaPublish
 from src.listeners.slack_client import ListenerClient
-from src.listeners.kafka_client import KafkaPublish
 from src.routes_loader import ServerRoutes
 from utilities import __routes_list_filter__
 from utilities import logger
@@ -26,17 +29,15 @@ class Server(object):
 
         :param config:
         """
-        self.app = Vibora(router_strategy=RouterStrategy.CLONE, log=logger)
+
+        self.app = Vibora(router_strategy=RouterStrategy.CLONE, log=self.log_handler)
         self.config = config
+        self.app.statistics = Statistics()
         self.app.components.add(self.config)
         self.config_parser_restructure()
         if self.config.api_helper.upper() == "True".upper():
             self.load_inbuilt_routes()
-        logger.info("Initializing Slack connection")
-        ListenerClient(config)
-        if self.config.enable_queue:
-            logger.info("Initializing Kafka connection")
-        KafkaPublish(config)
+        self.startup_handling()
         self.closure_handling()
 
     def config_parser_restructure(self):
@@ -45,10 +46,9 @@ class Server(object):
         else:
             self.config.slashes = False
         if self.config.alert_queue.upper() == "True".upper():
-            self.config.enable_queue=True
+            self.config.enable_queue = True
         else:
-            self.config.enable_queue=False
-
+            self.config.enable_queue = False
 
     def load_inbuilt_routes(self):
         """
@@ -78,6 +78,29 @@ class Server(object):
         )
         self.app.add_hook(closure_hook)
 
+    def startup_init(self):
+        logger.info("Initializing Slack connection")
+        ListenerClient(self.config)
+        if self.config.enable_queue:
+            logger.info("Initializing Kafka connection")
+        KafkaPublish(self.config, asyncio.get_event_loop())
+        # self.init_socket_server()
+        # if self.config.kafka_logging.upper() == "True".upper():
+        #     LogFactory(self.config,asyncio.get_event_loop())
+        #     from utilities.log_factory import logger as kafka_logger
+        #     kafka_logger.info("Kafka Logger Initialized")
+
+    def startup_handling(self):
+        """
+
+        :return:
+        """
+        startup_hook = Hook(
+            Events.AFTER_SERVER_START,
+            handler=self.startup_init
+        )
+        self.app.add_hook(startup_hook)
+
     async def url_filter_map(self, request: Request):
         """
 
@@ -94,6 +117,13 @@ class Server(object):
         :param request:
         :return:
         """
+        logger.info(
+            f'Received incoming alert '
+            f'{request.client_ip} '
+            f'{request.url} '
+            f'{request.headers} '
+            f'{request.method} '
+            f'{request.protocol}')
         url_json = await __routes_list_filter__(self.app)
         return JsonResponse(url_json)
 
@@ -133,3 +163,23 @@ class Server(object):
         :return:
         """
         return self.app
+
+    def init_socket_server(self):
+        loop = asyncio.get_event_loop()
+        coro = asyncio.start_server(handle_echo, '0.0.0.0', 8282, loop=loop)
+        loop.create_task(coro)
+        asyncio.ensure_future(coro)
+
+
+async def handle_echo(reader, writer):
+    data = await reader.read(100)
+    message = data.decode()
+    addr = writer.get_extra_info('peername')
+    print("Received %r from %r" % (message, addr))
+
+    print("Send: %r" % message)
+    writer.write(data)
+    await writer.drain()
+
+    print("Close the client socket")
+    writer.close()
