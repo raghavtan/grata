@@ -65,7 +65,7 @@ def payload_multiplex(payload, source):
             "username": alert_username,
         }
     elif source == "sns":
-        name_service = "infrastructure"
+        channel = "infrastructure"
         color = dict(OK="good", ALARM="danger")
         message = json.loads(payload_restructured["Message"])
         queue = "%s::%s" % (message["Trigger"]["MetricName"], message["Trigger"]["Namespace"])
@@ -87,11 +87,11 @@ def payload_multiplex(payload, source):
 
                 }
             ],
-            "channel": name_service,
+            "channel": channel,
             "username": "AWS/SNS Notification",
         }
     else:
         name_service = "sampler5"
     logger.debug("Service: %s\nNew Payload: %s" % (name_service, payload_restructured))
 
-    return payload_restructured, {"name": name_service}
+    return payload_restructured, {"name": channel}
