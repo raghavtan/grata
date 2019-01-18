@@ -47,6 +47,7 @@ def payload_multiplex(payload, source):
                                                                                    BROKER=payload["data"]["series"][0][
                                                                                        "name"].upper(),
                                                                                    VALUE=value)
+            dashboard=""
         payload_restructured = {
             "attachments": [
                 {
