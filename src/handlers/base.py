@@ -28,13 +28,6 @@ async def health(request: Request):
     :param request:
     :return:
     """
-    logger.info(
-        f'Received incoming alert '
-        f'{request.client_ip} '
-        f'{request.url} '
-        f'{request.headers} '
-        f'{request.method} '
-        f'{request.protocol}')
     return JsonResponse({'msg': "health"})
 
 
