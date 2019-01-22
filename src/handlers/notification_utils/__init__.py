@@ -15,9 +15,9 @@ def payload_multiplex(payload, source):
     color = dict(OK="good", WARNING="warning", CRITICAL="danger")
     payload_restructured = payload
     if source == "jenkins":
-        name_service = payload["text"]
-        payload_restructured["channel"] = name_service
-        payload_restructured["username"] = name_service
+        channel = payload["text"]
+        payload_restructured["channel"] = channel
+        payload_restructured["username"] = channel
     elif source == "tsdb":
         if "VirtualTopic" in payload["id"]:
             queue = payload["data"]["series"][0]["tags"]["destinationName"]
