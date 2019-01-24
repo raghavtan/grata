@@ -39,7 +39,7 @@ async def generate(request: Request):
             resp = report_url
             status = 200
         else:
-            resp = "Bad Format of POST request :::: %s"%format.keys()
+            resp = "Bad Format of POST request :::: %s"%format
     except Exception as e:
         resp = e
         logger.exception(e, exc_info=True)
@@ -73,17 +73,8 @@ async def parse(request: Request):
             resp = report_url
             status = 200
         else:
-            resp = "Bad Format of POST request :::: %s"%format.keys()
+            resp = "Bad Format of POST request :::: %s"%format
     except Exception as e:
         resp = e
         logger.exception(e, exc_info=True)
     return JsonResponse({'msg': resp}, status_code=status)
-
-
-async def health(request: Request):
-    """
-
-    :param request:
-    :return:
-    """
-    return JsonResponse({'msg': "health"})
