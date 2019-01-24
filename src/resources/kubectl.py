@@ -21,13 +21,6 @@ from src.resources import KUBE_CONFIG
 from kubernetes_py import K8sConfig
 from kubernetes_py import K8sNode
 
-cfg_other = K8sConfig(kubeconfig='/Users/raghavendratandon/stable/ws/limetray/grata/config/kube-prod.yaml')
-
-node=K8sNode(config=config,name="ip-172-22-0-102.ap-southeast-1.compute.internal")
-node.unschedulable=True
-node.update()
-
-
 
 def LoadKubernetes(environment="production"):
     """

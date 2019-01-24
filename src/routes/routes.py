@@ -2,6 +2,7 @@ from src.handlers import alerts
 from src.handlers import base
 from src.handlers import incoming
 from src.routes import RouteData
+from src.handlers import reporting
 
 routes = {
     "/": RouteData(cache=True,
@@ -10,8 +11,8 @@ routes = {
                    parameters=""),
     "/health": RouteData(cache=True,
                          handler=base.health),
-    "/stats": RouteData(cache=None,
-                        handler=base.stats),
+    # "/stats": RouteData(cache=None,
+    #                     handler=base.stats),
     "/alerts": {
         "/v1": {
             "/<source>": RouteData(cache=True,
@@ -31,6 +32,15 @@ routes = {
         "/exec": RouteData(cache=None,
                            methods=['GET', 'POST'],
                            handler=incoming.api)
-    }
+    },
+    "/report": {
+        "/parse": RouteData(cache=None,
+                          methods=[ 'POST'],
+                          handler=reporting.parse),
 
+        "/generate": RouteData(cache=None,
+                            methods=[ 'POST'],
+                            handler=reporting.generate),
+
+    }
 }
