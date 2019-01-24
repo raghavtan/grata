@@ -10,8 +10,19 @@
     {
       "name" : "APP_PORT",
       "value" : "8001"
-    }
-
+    },
+    {
+      "name":"AWS_ACCESS_KEY_ID",
+      "value":"AKIAI4VASORJYOYE3KJQ"
+    },
+    {
+      "name":"AWS_SECRET_ACCESS_KEY",
+      "value":"klXTaxz4RzMyzI+JzMiQsJzxsD3BUeXg5NV0oAnX"
+    },
+    {
+      "name":"AWS_DEFAULT_REGION",
+      "value":"ap-southeast-1"
+    },
   ],
   "tier" : "infrastructure",
   "owner" : "raghav",

@@ -16,6 +16,9 @@ kubernetes = "*"
 kubernetes-py = "*"
 afkak = "*"
 aiokafka = "*"
+xlsxwriter = "*"
+"boto3" = "*"
+aiojobs = "*"
 
 [dev-packages]
 
