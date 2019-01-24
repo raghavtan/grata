@@ -31,7 +31,7 @@ async def generate(request: Request):
             f'{request.method} '
             f'{request.protocol}')
         payload = await request.json()
-        if format.keys() in payload.keys():
+        if set(format.keys()) == set(payload.keys()):
             report_url = report_generate(list_of_print=payload["payload"],
                                          timelapse=payload["lapse"],
                                          title=payload["title"],
@@ -66,7 +66,7 @@ async def parse(request: Request):
             f'{request.method} '
             f'{request.protocol}')
         payload = await request.json()
-        if format.keys() in payload.keys():
+        if set(format.keys()) in set(payload.keys()):
             report_url = parsed_events(dBInstanceIdentifier=payload["rdsinstance"],
                                        days_to_ingest=payload["timelapse"],
                                        )
