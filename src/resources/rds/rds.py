@@ -10,18 +10,7 @@ from src.resources.rds.mysql_parser import SlowQueryLog
 # Start from 1 day ago if it hasn't been run yet
 # INITIAL_DAYS_TO_INGEST = 1
 
-EVENT = {"query_time": None,
-         "rows_examined": None,
-         "rows_sent": None,
-         "database": None,
-         "rows_read": None,
-         "lock_time": None,
-         "session_id": None,
-         "datetime": None,
-         "host": None,
-         "user": None,
-         "query": None,
-         "rows_affected": None}
+
 
 client = boto3.client('rds')
 
@@ -130,33 +119,34 @@ def parse_log(event):
     return event_list
 
 
-def parsed_events(dBInstanceIdentifier=None, days_to_ingest=1):
-    """
+def parsed_events(dBInstanceIdentifier, days_to_ingest):
+    queries_parsed = []
+    previous_database = None
+    slow_logs = sanitize(getlogs(dBInstanceIdentifier, days_to_ingest))
+    events = split(slow_logs, "# User@Host:")
+    for event in events:
+        if len(event) > 1:
+            EVENT = {"query_time": None,
+                     "rows_examined": None,
+                     "rows_sent": None,
+                     "database": None,
+                     "rows_read": None,
+                     "lock_time": None,
+                     "session_id": None,
+                     "datetime": None,
+                     "host": None,
+                     "user": None,
+                     "query": None,
+                     "rows_affected": None}
+            temp = parse_log(event)
+            for element in EVENT.keys():
+                if element in temp.keys():
+                    EVENT[element] = temp[element]
+                    if element == "database" and temp[element]:
+                        previous_database = temp[element]
 
-    :param dBInstanceIdentifier:
-    :param days_to_ingest:
-    :return:
-    """
-    parsed_events_map = {}
-    if not dBInstanceIdentifier:
-        dBInstanceIdentifier = fetch_all_rds()
-    for dBInstance in dBInstanceIdentifier:
-        print(dBInstance)
-        queries_parsed = []
-        previous_database = None
-        slow_logs = sanitize(getlogs(dBInstance, days_to_ingest))
-        events = split(slow_logs, "# User@Host:")
-        for event in events:
-            if len(event) > 1:
-                temp = parse_log(event)
-                for element in EVENT.keys():
-                    if element in temp.keys():
-                        EVENT[element] = temp[element]
-                        if element == "database" and temp[element]:
-                            previous_database = temp[element]
+                    elif element == "database" and not temp[element]:
+                        EVENT[element] = previous_database
 
-                        elif element == "database" and not temp[element]:
-                            EVENT[element] = previous_database
             queries_parsed.append(EVENT)
-        parsed_events_map[dBInstance]=queries_parsed
-    return parsed_events_map
+    return queries_parsed

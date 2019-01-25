@@ -6,22 +6,23 @@ from vibora.request import Request
 from vibora.responses import JsonResponse
 
 from src.resources.ansible_mail import send_mail
-from src.resources.rds.rds import parsed_events
+from src.resources.rds.rds import parsed_events, fetch_all_rds
 from src.resources.reports import report_generate
 from utilities import logger
-import time
 
 
 async def report_job(resource, time_lapse):
-    all_rds = parsed_events(days_to_ingest=int(time_lapse / 24))
-    logger.info("Fetched Parsed logs for all_rds")
-    for instance, events in all_rds.items():
-        url = report_generate(events,
-                              timelapse=24,
-                              title="%s-%s" % (resource, instance))
-        logger.info("Generated xlsx file at %s" % url)
-        send_mail(subject="%s Query Report" % instance, body=url,toaddr="tech@limetray.com")
-        logger.info("Sent Mail")
+    rds_names = fetch_all_rds()
+    for instance in rds_names:
+        events = parsed_events(dBInstanceIdentifier=instance, days_to_ingest=int(time_lapse / 24))
+        logger.info("Fetched Parsed logs for %s" % instance)
+        if len(events) > 0:
+            url = report_generate(events,
+                                  timelapse=24,
+                                  title="%s-%s" % (resource, instance))
+            logger.info("Generated xlsx file at %s" % url)
+            send_mail(subject="%s Query Report" % instance, body=url, toaddr="rtandon@limetray.com")
+            logger.info("Sent Mail for %s" % instance)
 
 
 async def generate(request: Request):
