@@ -21,7 +21,7 @@ async def report_job(resource, time_lapse):
                                   timelapse=24,
                                   title="%s-%s" % (resource, instance))
             logger.info("Generated xlsx file at %s" % url)
-            send_mail(subject="%s Query Report" % instance, body=url, toaddr="rtandon@limetray.com")
+            send_mail(subject="%s Query Report" % instance, body=url, toaddr="tech@limetray.com")
             logger.info("Sent Mail for %s" % instance)
 
 

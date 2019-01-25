@@ -7,13 +7,8 @@ import boto3
 
 from src.resources.rds.mysql_parser import SlowQueryLog
 
-# Start from 1 day ago if it hasn't been run yet
-# INITIAL_DAYS_TO_INGEST = 1
-
-
 
 client = boto3.client('rds')
-
 
 
 def fetch_all_rds():
