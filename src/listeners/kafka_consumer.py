@@ -24,7 +24,7 @@ def dict_to_binary(the_dict):
     return binary
 
 
-class KafkaConsume(metaclass=CreateSingleton):
+class KafkaConsumer(metaclass=CreateSingleton):
     """
     siege -c50 -t10S -b --content-type "application/json" 'http://localhost:8001/incoming/queue POST { "pay_key":"pay_value"}
     """
@@ -42,7 +42,7 @@ class KafkaConsume(metaclass=CreateSingleton):
                                                  bootstrap_servers=self.config.kafka_host,
                                                  client_id="GrataL",
                                                  loop=loop,
-                                                 group_id="alerts_listener",
+                                                 group_id="reports_listener",
                                                  metadata_max_age_ms=5000)
 
                 self.consumer.start()
