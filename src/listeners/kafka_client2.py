@@ -56,7 +56,7 @@ class KafkaPublish(metaclass=CreateSingleton):
                     "Kafka_queues": "Disabled",
                     "message": "Currently working in API mode, set queues to True in config"}
         except Exception as e:
-            logger.exception(e,exc_info=True)
+            logger.exception(e, exc_info=True)
             asyncio.get_event_loop().close()
 
     async def publish(self, payload):
@@ -92,4 +92,3 @@ class KafkaPublish(metaclass=CreateSingleton):
                 logger.debug("Closed Kafka connection pool")
         except Exception as e:
             logger.error(e)
-

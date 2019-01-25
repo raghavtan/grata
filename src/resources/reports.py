@@ -15,10 +15,11 @@ def push_to_s3(file_path, title, bucket="slow.query.logs"):
     bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket)
     object_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(bucket_location['LocationConstraint'], bucket,
                                                                "%s/report-%s.xlsx" % (title, time_stamp))
+    os.remove("%s_report.xlsx"%(title))
     return object_url
 
 
-async def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.logs"):
+def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.logs"):
     """
     :param list_of_print: List of dictionaries
     :param timelapse: Time difference of report (which report covers)

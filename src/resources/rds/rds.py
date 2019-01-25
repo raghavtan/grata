@@ -26,11 +26,28 @@ EVENT = {"query_time": None,
 client = boto3.client('rds')
 
 
-# dBInstanceIdentifier = 'limetraycmsprod'  # Enter your Instance ID here or as a command line argument
+
+def fetch_all_rds():
+    """
+
+    :return:
+    """
+    identifiers_list = []
+    response = client.describe_db_instances()
+    for instance in response["DBInstances"]:
+        if "limetraycms" in instance["DBInstanceIdentifier"]:
+            identifiers_list.append(instance["DBInstanceIdentifier"])
+    return identifiers_list
 
 
 # Iterate through list of log files and print out the entries
 def getlogs(instance_identifier, days_to_ingest):
+    """
+
+    :param instance_identifier:
+    :param days_to_ingest:
+    :return:
+    """
     if len(sys.argv) > 1:
         instance_identifier = sys.argv[1]
 
@@ -44,7 +61,6 @@ def getlogs(instance_identifier, days_to_ingest):
         DBInstanceIdentifier=instance_identifier,
         FileLastWritten=lastReadDate,  # Base this off of last query
     )
-    lastReadDate = int(round(time.time() * 1000))
     combined_log = ""
     for logFile in dbLogs['DescribeDBLogFiles']:
         if logFile['LogFileName'] in readState:
@@ -69,6 +85,11 @@ def getlogs(instance_identifier, days_to_ingest):
 
 
 def sanitize(log_str):
+    """
+
+    :param log_str:
+    :return:
+    """
     removal_lines = ["^/rdsdbbin/mysql/bin/mysqld.*",
                      "^Tcp port: 3306.*",
                      r"Time.+Argument",
@@ -78,41 +99,64 @@ def sanitize(log_str):
     return "".join([s for s in log_str.strip().splitlines(True) if s.strip("\r\n").strip()])
 
 
-def split(log_file, spliter):
-    log_file = log_file.replace(spliter, "__SPLIT__%s" % spliter)
+def split(log_file, splitter):
+    """
+
+    :param log_file:
+    :param splitter:
+    :return:
+    """
+    log_file = log_file.replace(splitter, "__SPLIT__%s" % splitter)
     events = log_file.split("__SPLIT__")
     return events
 
 
 def parse_log(event):
+    """
+
+    :param event:
+    :return:
+    """
     event_list = {}
     f = open('_tmp_event', 'w')
     f.write(event)
     f.close()
     f_new = open('_tmp_event', 'r')
     loggy = SlowQueryLog(f_new)
-    for k, v in loggy.next().iteritems():
+    for k, v in loggy.next().items():
         event_list[k] = v
     f_new.close()
     os.remove("_tmp_event")
     return event_list
 
 
-def parsed_events(dBInstanceIdentifier, days_to_ingest):
-    queries_parsed = []
-    previous_database = None
-    slow_logs = sanitize(getlogs(dBInstanceIdentifier, days_to_ingest))
-    events = split(slow_logs, "# User@Host:")
-    for event in events:
-        if len(event) > 1:
-            temp = parse_log(event)
-            for element in EVENT.keys():
-                if element in temp.keys():
-                    EVENT[element] = temp[element]
-                    if element == "database" and temp[element]:
-                        previous_database = temp[element]
+def parsed_events(dBInstanceIdentifier=None, days_to_ingest=1):
+    """
 
-                    elif element == "database" and not temp[element]:
-                        EVENT[element] = previous_database
-        queries_parsed.append(EVENT)
-    return queries_parsed
+    :param dBInstanceIdentifier:
+    :param days_to_ingest:
+    :return:
+    """
+    parsed_events_map = {}
+    if not dBInstanceIdentifier:
+        dBInstanceIdentifier = fetch_all_rds()
+    for dBInstance in dBInstanceIdentifier:
+        print(dBInstance)
+        queries_parsed = []
+        previous_database = None
+        slow_logs = sanitize(getlogs(dBInstance, days_to_ingest))
+        events = split(slow_logs, "# User@Host:")
+        for event in events:
+            if len(event) > 1:
+                temp = parse_log(event)
+                for element in EVENT.keys():
+                    if element in temp.keys():
+                        EVENT[element] = temp[element]
+                        if element == "database" and temp[element]:
+                            previous_database = temp[element]
+
+                        elif element == "database" and not temp[element]:
+                            EVENT[element] = previous_database
+            queries_parsed.append(EVENT)
+        parsed_events_map[dBInstance]=queries_parsed
+    return parsed_events_map
