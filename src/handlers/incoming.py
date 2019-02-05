@@ -2,6 +2,7 @@
 
 """
 
+import aiojobs
 from vibora.request import Request
 from vibora.responses import JsonResponse
 
@@ -11,6 +12,30 @@ from src.listeners import CreateSingleton
 from src.listeners.kafka_client2 import KafkaPublish
 from src.listeners.slack_client import ListenerClient
 from utilities import logger
+
+
+async def alert_job(request, slc, payload):
+    try:
+        source, slack_direct_flag = source_manager(payload)
+        payload_new, svc = payload_multiplex(payload, source)
+        resp = dict(service=svc,
+                    channel=None,
+                    notification=None)
+        if isinstance(resp["service"], dict):
+            resp['channel'] = slc.create_channel(resp["service"]["name"])
+
+        if isinstance(resp["channel"], dict):
+            resp['notification'] = slc.notification(
+                channel=resp["channel"]["svc_channel"],
+                payload=payload_new,
+                slack_format=slack_direct_flag
+            )
+        if isinstance(resp["notification"], dict):
+            resp = {'message': resp["notification"]["text"]}
+            request.app.statistics.update("published", "api")
+        logger.info("Sent payload to slack %s " % resp)
+    except Exception as e:
+        logger.exception(e,exc_info=True)
 
 
 async def queue(request: Request):
@@ -49,42 +74,26 @@ async def api(request: Request):
     """
     status = 400
     try:
-
         logger.info(
             f'Received incoming alert '
             f'{request.client_ip} '
             f'{request.url} '
             f'{request.headers} '
             f'{request.method} '
-            f'{request.protocol}')
+            f'{request.protocol}'
+        )
         request.app.statistics.update("received", "api")
         slc = CreateSingleton.singleton_instances[ListenerClient]
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
-        source, slack_direct_flag = source_manager(payload)
-        payload_new, svc = payload_multiplex(payload, source)
-        resp = dict(service=svc,
-                    channel=None,
-                    notification=None)
-        if isinstance(resp["service"], dict):
-            resp['channel'] = slc.create_channel(resp["service"]["name"])
-
-        if isinstance(resp["channel"], dict):
-            resp['notification'] = slc.notification(
-                channel=resp["channel"]["svc_channel"],
-                payload=payload_new,
-                slack_format=slack_direct_flag
-            )
-        if isinstance(resp["notification"], dict):
-            resp = {'message': resp["notification"]["text"]}
-            status = 200
-            request.app.statistics.update("published", "api")
-        logger.info("Sent payload to slack %s " % resp)
-        return JsonResponse(resp, status_code=status)
+        scheduler = await aiojobs.create_scheduler(close_timeout=15)
+        await scheduler.spawn(alert_job(request, slc, payload))
+        resp = "ok"
+        status = 200
     except Exception as e:
         resp = {"error": str.encode(str(e))}
-        logger.error(resp)
-        return JsonResponse(resp, status_code=status)
+        logger.exception(resp, exc_info=True)
+    return JsonResponse({'msg': resp}, status_code=status)
 
 
 async def exec(request: Request):
@@ -100,8 +109,8 @@ async def exec(request: Request):
 
         payload = await request.json()
         logger.debug("Received alert payload\n%s" % payload)
-        level=payload["level"]
-        node_name=payload["series"][0]["tags"]["nodename"]
+        level = payload["level"]
+        node_name = payload["series"][0]["tags"]["nodename"]
 
         logger.info("Sent payload to slack %s " % resp)
         return JsonResponse(resp, status_code=status)
