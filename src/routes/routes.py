@@ -22,11 +22,11 @@ routes = {
     },
     "/incoming": {
         "/api": RouteData(cache=None,
-                          methods=['GET', 'POST'],
+                          methods=[ 'POST'],
                           handler=incoming.api),
 
         "/queue": RouteData(cache=None,
-                            methods=['GET', 'POST'],
+                            methods=['POST'],
                             handler=incoming.queue),
 
         "/exec": RouteData(cache=None,

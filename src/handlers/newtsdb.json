@@ -1,0 +1,31 @@
+{
+  'id': 'CPU [Shared-Resources]:Role=mongo,host=172.31.18.156',
+  'message': '',
+  'details': '{&#34;Name&#34;:&#34;disk&#34;,&#34;TaskName&#34;:&#34;chronograf-v1-27365ffc-b342-4757-a92c-c122f56b5922&#34;,&#34;Group&#34;:&#34;Role=mongo,host=172.31.18.156&#34;,&#34;Tags&#34;:{&#34;Role&#34;:&#34;mongo&#34;,&#34;host&#34;:&#34;172.31.18.156&#34;},&#34;ServerInfo&#34;:{&#34;Hostname&#34;:&#34;localhost&#34;,&#34;ClusterID&#34;:&#34;da7b8041-df65-4b5f-906a-237dda192e50&#34;,&#34;ServerID&#34;:&#34;642c22ca-e630-4e05-a2c8-e5ff7dbcf8a4&#34;},&#34;ID&#34;:&#34;CPU [Shared-Resources]:Role=mongo,host=172.31.18.156&#34;,&#34;Fields&#34;:{&#34;value&#34;:58.05804434168933},&#34;Level&#34;:&#34;CRITICAL&#34;,&#34;Time&#34;:&#34;2019-02-04T09:13:00Z&#34;,&#34;Duration&#34;:0,&#34;Message&#34;:&#34;&#34;}\n',
+  'time': '2019-02-04T09:13:00Z',
+  'duration': 0,
+  'level': 'CRITICAL',
+  'data': {
+    'series': [
+      {
+        'name': 'disk',
+        'tags': {
+          'Role': 'mongo',
+          'host': '172.31.18.156'
+        },
+        'columns': [
+          'time',
+          'value'
+        ],
+        'values': [
+          [
+            '2019-02-04T09:13:00Z',
+            58.05804434168933
+          ]
+        ]
+      }
+    ]
+  },
+  'previousLevel': 'OK',
+  'recoverable': True
+}
