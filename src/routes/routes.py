@@ -9,10 +9,8 @@ routes = {
                    methods=None,
                    handler=base.base,
                    parameters=""),
-    "/health": RouteData(cache=True,
+    "/health": RouteData(cache=None,
                          handler=base.health),
-    # "/stats": RouteData(cache=None,
-    #                     handler=base.stats),
     "/alerts": {
         "/v1": {
             "/<source>": RouteData(cache=True,

@@ -5,9 +5,10 @@ import boto3
 import dateutil.parser
 import dateutil.tz
 import xlsxwriter
-import asyncio
+from numba import jit
 
 
+@jit(nopython=True)
 def push_to_s3(file_path, title, bucket="slow.query.logs"):
     s3 = boto3.resource('s3')
     time_stamp = datetime.datetime.now().strftime('%s')
@@ -19,12 +20,15 @@ def push_to_s3(file_path, title, bucket="slow.query.logs"):
     return object_url
 
 
+@jit(nopython=True)
 def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.logs"):
     """
-    :param list_of_print: List of dictionaries
-    :param timelapse: Time difference of report (which report covers)
+
+    :param list_of_print:
+    :param timelapse:
     :param title:
-    :return: path of file written
+    :param bucket:
+    :return:
     """
     heads = tuple(list_of_print[0].keys())
     current_time = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.tzutc())
