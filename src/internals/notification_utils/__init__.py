@@ -97,7 +97,7 @@ def payload_multiplex(payload, source):
     slack_payload["attachments"][0]["color"] = slack_color
     slack_payload["attachments"][0]["text"] = text
     slack_payload["attachments"][0]["title"] = slack_title
-    slack_payload["attachments"][0]["author"] = slack_author
+    slack_payload["attachments"][0]["author_name"] = slack_author
 
     if source == "jenkins":
         slack_payload = payload
