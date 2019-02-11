@@ -1,28 +1,13 @@
 """
 
 """
-import aiojobs
 from vibora.request import Request
 from vibora.responses import JsonResponse
 
-from src.resources.ansible_mail import send_mail
-from src.resources.rds.rds import parsed_events, fetch_all_rds
+from src.jobs.reporting_job import Report
+from src.resources.rds.rds import parsed_events
 from src.resources.reports import report_generate
 from utilities import logger
-
-
-async def report_job(resource, time_lapse):
-    rds_names = fetch_all_rds()
-    for instance in rds_names:
-        events = parsed_events(dBInstanceIdentifier=instance, days_to_ingest=int(time_lapse / 24))
-        logger.info("Fetched Parsed logs for %s" % instance)
-        if len(events) > 0:
-            url = report_generate(events,
-                                  timelapse=24,
-                                  title="%s-%s" % (resource, instance))
-            logger.info("Generated xlsx file at %s" % url)
-            send_mail(subject="%s Query Report" % instance, body=url, toaddr="tech@limetray.com")
-            logger.info("Sent Mail for %s" % instance)
 
 
 async def generate(request: Request):
@@ -39,13 +24,6 @@ async def generate(request: Request):
             "bucket": "bucket",
             "lapse": "timelapse"
         }
-        logger.info(
-            f'Received incoming alert '
-            f'{request.client_ip} '
-            f'{request.url} '
-            f'{request.headers} '
-            f'{request.method} '
-            f'{request.protocol}')
         payload = await request.json()
         if set(format.keys()) == set(payload.keys()):
             report_url = report_generate(list_of_print=payload["payload"],
@@ -74,13 +52,6 @@ async def parse(request: Request):
             "rdsinstance": "rdsinstance",
             "timelapse": "timelapse",
         }
-        logger.info(
-            f'Received incoming alert '
-            f'{request.client_ip} '
-            f'{request.url} '
-            f'{request.headers} '
-            f'{request.method} '
-            f'{request.protocol}')
         payload = await request.json()
         if set(format.keys()) in set(payload.keys()):
             report_url = parsed_events(dBInstanceIdentifier=payload["rdsinstance"],
@@ -100,24 +71,17 @@ async def complete(request: Request, resource: str, time_lapse: int):
     """
 
     :param request:
+    :param resource:
+    :param time_lapse:
     :return:
     """
     status = 400
     try:
-
-        logger.info(
-            f'Received incoming alert '
-            f'{request.client_ip} '
-            f'{request.url} '
-            f'{request.headers} '
-            f'{request.method} '
-            f'{request.protocol}')
+        ReportJob = Report()
         if resource:
-            resp = []
             status = 200
             if resource == "rds":
-                scheduler = await aiojobs.create_scheduler(close_timeout=15)
-                await scheduler.spawn(report_job(resource, time_lapse))
+                await request.app.scheduler.spawn(ReportJob.job(resource, time_lapse))
                 resp = "ok"
             else:
                 resp = "Only RDS reports configured"
@@ -133,18 +97,12 @@ async def complete_without_time(request: Request, resource: str):
     """
 
     :param request:
+    :param resource:
     :return:
     """
     status = 400
     try:
         time_lapse = 24
-        logger.info(
-            f'Received incoming alert '
-            f'{request.client_ip} '
-            f'{request.url} '
-            f'{request.headers} '
-            f'{request.method} '
-            f'{request.protocol}')
         if resource:
             print(resource)
             print(time_lapse)
