@@ -3,7 +3,9 @@
 """
 import asyncio
 
+import aiojobs
 from vibora import Request
+from vibora import Response
 from vibora import Vibora
 from vibora.hooks import Hook, Events
 from vibora.responses import JsonResponse
@@ -39,6 +41,7 @@ class Server(object):
             self.load_inbuilt_routes()
         self.startup_handling()
         self.closure_handling()
+        self.event_handling()
 
     def config_parser_restructure(self):
         if self.config.strict_slashes.upper() == "True".upper():
@@ -78,12 +81,14 @@ class Server(object):
         )
         self.app.add_hook(closure_hook)
 
-    def startup_init(self):
+    async def startup_init(self):
         logger.info("Initializing Slack connection")
         ListenerClient(self.config)
         if self.config.enable_queue:
             logger.info("Initializing Kafka connection")
         KafkaPublish(self.config, asyncio.get_event_loop())
+        self.app.scheduler = await aiojobs.create_scheduler(close_timeout=30)
+
         # self.init_socket_server()
         # if self.config.kafka_logging.upper() == "True".upper():
         #     LogFactory(self.config,asyncio.get_event_loop())
@@ -101,6 +106,35 @@ class Server(object):
         )
         self.app.add_hook(startup_hook)
 
+    def event_handling(self):
+        """
+
+        :return:
+        """
+        request_hook = Hook(
+            Events.AFTER_ENDPOINT,
+            handler=self.request_logger
+        )
+        # response_hook = Hook(
+        #     Events.AFTER_RESPONSE_SENT,
+        #     handler=self.response_logger
+        # )
+        self.app.add_hook(request_hook)
+        # self.app.add_hook(response_hook)
+
+    def request_logger(self, request: Request):
+        logger.info(
+            f'Received Incoming\n'
+            f'{request.url}\n'
+            f'{request.headers.__str__()}\n'
+            f'{request.method}')
+
+    def response_logger(self, response: Response):
+
+        logger.info(
+            f'Request Response\n'
+            f'{dir(response)}\n')
+
     async def url_filter_map(self, request: Request):
         """
 
@@ -117,13 +151,13 @@ class Server(object):
         :param request:
         :return:
         """
-        logger.info(
-            f'Received incoming alert '
-            f'{request.client_ip} '
-            f'{request.url} '
-            f'{request.headers} '
-            f'{request.method} '
-            f'{request.protocol}')
+        # logger.info(
+        #     f'Received incoming alert '
+        #     f'{request.client_ip} '
+        #     f'{request.url} '
+        #     f'{request.headers} '
+        #     f'{request.method} '
+        #     f'{request.protocol}')
         url_json = await __routes_list_filter__(self.app)
         return JsonResponse(url_json)
 
