@@ -5,8 +5,6 @@ import json
 import re
 import time
 
-
-
 from utilities import logger
 
 tsdb_amq_regex = r".*\.(?P<consumer>\S+-service(-hack)?)\.VirtualTopic\.[Ll][tT]\.(?P<producer>\S+)-service\S*"
@@ -30,7 +28,6 @@ payload_dump = {
 }
 
 
-
 def payload_multiplex(payload, source):
     color_dict = dict(OK="good", WARNING="warning", CRITICAL="danger")
     slack_payload = payload_dump
@@ -40,12 +37,8 @@ def payload_multiplex(payload, source):
     text = payload
     slack_title = "Please Fix ME"
     slack_author = "LimeTray/Alerter"
-    if source == "jenkins":
-        slack_payload = payload
-        slack_channel = payload["text"]
-        slack_username = payload["text"]
 
-    elif source == "tsdb":
+    if source == "tsdb":
         slack_author = "InfluxTSDB/QueryEngine"
         slack_color = color_dict[payload["level"]]
         try:
@@ -96,6 +89,11 @@ def payload_multiplex(payload, source):
 
     else:
         text = payload
+
+    if source == "jenkins":
+        slack_payload = payload
+        slack_channel = payload["text"]
+        slack_username = payload["text"]
 
     slack_payload["channel"] = slack_channel
     slack_payload["username"] = slack_username
