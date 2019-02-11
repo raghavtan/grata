@@ -1,29 +1,22 @@
-from src.handlers.notification_utils import payload_multiplex
-from src.handlers.notification_utils.source_manager import source_manager
+from src.resources.ansible_mail import send_mail
+from src.resources.rds.rds import parsed_events, fetch_all_rds
+from src.resources.reports import report_generate
 from utilities import logger
 
 
-class Alerter:
+class Report:
 
-    async def job(self, request, slc, payload):
-        try:
-            source, slack_direct_flag = source_manager(payload)
-            payload_new, svc = payload_multiplex(payload, source)
-            resp = dict(service=svc,
-                        channel=None,
-                        notification=None)
-            if isinstance(resp["service"], dict):
-                resp['channel'] = slc.create_channel(resp["service"]["name"])
-
-            if isinstance(resp["channel"], dict):
-                resp['notification'] = slc.notification(
-                    channel=resp["channel"]["svc_channel"],
-                    payload=payload_new,
-                    slack_format=slack_direct_flag
-                )
-            if isinstance(resp["notification"], dict):
-                resp = {'message': resp["notification"]["text"]}
-                request.app.statistics.update("published", "api")
-            logger.info("Sent payload to slack %s " % resp)
-        except Exception as e:
-            logger.exception(e, exc_info=True)
+    async def job(self, resource, time_lapse):
+        rds_names = fetch_all_rds()
+        for instance in rds_names:
+            events = parsed_events(dBInstanceIdentifier=instance,
+                                   days_to_ingest=int(time_lapse / 24))
+            logger.info("Fetched Parsed logs for %s" % instance)
+            if len(events) > 0:
+                url = report_generate(events,
+                                      timelapse=24,
+                                      title="%s-%s" % (resource, instance))
+                logger.info("Generated xlsx file at %s" % url)
+                send_mail(subject="%s Query Report" % instance, body=url,
+                          toaddr="tech@limetray.com")
+                logger.info("Sent Mail for %s" % instance)
