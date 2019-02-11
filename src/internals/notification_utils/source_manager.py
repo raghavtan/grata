@@ -2,7 +2,7 @@
 
 """
 from utilities import logger
-
+from numba import jit
 
 class AlertsSource:
     """
@@ -31,6 +31,7 @@ class AlertsSource:
         return return_list
 
 
+@jit(nopython=True)
 def sources(payload=None):
     """
 
