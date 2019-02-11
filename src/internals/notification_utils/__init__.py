@@ -45,7 +45,6 @@ def payload_multiplex(payload, source):
             if "VirtualTopic" in payload["id"]:
                 queue = payload["data"]["series"][0]["tags"]["destinationName"]
                 queue_name_parts = amq_regex.match(queue).groupdict()
-                slack_channel = queue_name_parts["consumer"]
                 slack_title = queue_name_parts["consumer"]
                 value = payload["data"]["series"][0]["values"][0][-1]
                 broker = payload["data"]["series"][0]["name"].replace("_Queues", "")
@@ -55,9 +54,9 @@ def payload_multiplex(payload, source):
                     slack_username = "DLQ/Dead Queue Threshold"
                 else:
                     slack_username = "Consumer-Queue Slow Consumption"
+                slack_channel = queue_name_parts["consumer"]
 
             elif "compute.internal" in payload["id"]:
-                slack_channel = "infrastructure"
                 slack_title = "Kubernetes Node"
                 slack_username = "System Resource Usage"
                 value = payload["data"]["series"][0]["values"][0][-1]
@@ -67,12 +66,13 @@ def payload_multiplex(payload, source):
                                                                                        payload["data"]["series"][0][
                                                                                            "name"].upper(),
                                                                                        VALUE=value)
+                slack_channel = "infrastructure"
         except Exception as e:
+            slack_channel = "sampler5"
             logger.exception(e, exc_info=True)
 
     elif source == "sns":
         try:
-            slack_channel = "infrastructure"
             slack_username = "AWS/SNS Notification"
             color_dict = dict(OK="good", ALARM="danger")
             message = json.loads(payload["Message"])
@@ -84,23 +84,28 @@ def payload_multiplex(payload, source):
                                                                                          VALUE=value)
             slack_title = message["AlarmName"]
             slack_author = "Amazon Web Services/SNS [CloudCompliance]"
+            slack_channel = "infrastructure"
         except Exception as e:
+            slack_channel = "sampler5"
             logger.exception(e, exc_info=True)
 
     else:
         text = payload
-
-    if source == "jenkins":
-        slack_payload = payload
-        slack_channel = payload["text"]
-        slack_username = payload["text"]
 
     slack_payload["channel"] = slack_channel
     slack_payload["username"] = slack_username
     slack_payload["attachments"][0]["color"] = slack_color
     slack_payload["attachments"][0]["text"] = text
     slack_payload["attachments"][0]["title"] = slack_title
-    slack_payload["attachments"][0]["title"] = slack_author
+    slack_payload["attachments"][0]["author"] = slack_author
+
+    if source == "jenkins":
+        slack_payload = payload
+        slack_channel = payload["text"]
+        slack_username = payload["text"]
+        slack_payload["channel"] = slack_channel
+        slack_payload["username"] = slack_username
+
     logger.debug("Channel: %s\nNew Payload: %s" % (slack_channel, slack_payload))
 
     return slack_payload, {"name": slack_channel}
