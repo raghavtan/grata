@@ -5,7 +5,7 @@ import json
 import re
 import time
 
-from numba import jit
+
 
 from utilities import logger
 
@@ -30,7 +30,7 @@ payload_dump = {
 }
 
 
-@jit(nopython=True)
+
 def payload_multiplex(payload, source):
     color_dict = dict(OK="good", WARNING="warning", CRITICAL="danger")
     slack_payload = payload_dump
