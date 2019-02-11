@@ -6,7 +6,7 @@ import time
 import boto3
 
 from src.resources.rds.mysql_parser import SlowQueryLog
-from numba import jit
+
 
 client = boto3.client('rds')
 
@@ -25,7 +25,7 @@ def fetch_all_rds():
 
 
 # Iterate through list of log files and print out the entries
-@jit(nopython=True)
+
 def getlogs(instance_identifier, days_to_ingest):
     """
 
@@ -69,7 +69,7 @@ def getlogs(instance_identifier, days_to_ingest):
     return combined_log
 
 
-@jit(nopython=True)
+
 def sanitize(log_str):
     """
 
@@ -85,7 +85,7 @@ def sanitize(log_str):
     return "".join([s for s in log_str.strip().splitlines(True) if s.strip("\r\n").strip()])
 
 
-@jit(nopython=True)
+
 def split(log_file, splitter):
     """
 
@@ -98,7 +98,7 @@ def split(log_file, splitter):
     return events
 
 
-@jit(nopython=True)
+
 def parse_log(event):
     """
 
@@ -118,7 +118,7 @@ def parse_log(event):
     return event_list
 
 
-@jit(nopython=True)
+
 def parsed_events(dBInstanceIdentifier, days_to_ingest):
     queries_parsed = []
     previous_database = None
