@@ -20,9 +20,9 @@ RUN pip3 install pipenv
 WORKDIR /usr/app
 
 RUN pipenv install
-
-ENTRYPOINT ["pipenv"]
+#
+#ENTRYPOINT ["pipenv"]
 
 EXPOSE 8001
 
-CMD ["run", "python" ,"main.py"]
+CMD ["pipenv","run", "python" ,"main.py"]
