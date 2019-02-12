@@ -4,7 +4,7 @@
 import json
 import re
 import time
-
+from numba import jit
 from utilities import logger
 
 tsdb_amq_regex = r".*\.(?P<consumer>\S+-service(-hack)?)\.VirtualTopic\.[Ll][tT]\.(?P<producer>\S+)-service\S*"
@@ -29,6 +29,7 @@ payload_dump = {
 }
 
 
+@jit(nopython=True)
 def payload_multiplex(payload, source):
     color_dict = dict(OK="good", WARNING="warning", CRITICAL="danger")
     slack_payload = payload_dump

@@ -21,6 +21,7 @@ xlsxwriter = "*"
 aiojobs = "*"
 llvmlite = "*"
 numba = "*"
+newrelic = "*"
 
 [dev-packages]
 

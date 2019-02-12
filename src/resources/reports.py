@@ -5,7 +5,7 @@ import boto3
 import dateutil.parser
 import dateutil.tz
 import xlsxwriter
-
+from numba import jit
 
 
 
@@ -20,7 +20,7 @@ def push_to_s3(file_path, title, bucket="slow.query.logs"):
     return object_url
 
 
-
+@jit(nopython=True)
 def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.logs"):
     """
 
