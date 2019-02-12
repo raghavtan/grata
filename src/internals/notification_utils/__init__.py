@@ -19,7 +19,8 @@ payload_dump = {
             "title": "Please Fix ME",
             "text": "",
             "footer": "LimeTray Engineering API",
-            "ts": int(time.time())
+            "ts": int(time.time()),
+            "mrkdwn_in": ["text"]
 
         }
     ],
@@ -75,14 +76,22 @@ def payload_multiplex(payload, source):
         try:
             slack_username = "AWS/SNS Notification"
             color_dict = dict(OK="good", ALARM="danger")
+            slack_title = payload["Subject"]
             message = json.loads(payload["Message"])
-            queue = "%s::%s" % (message["Trigger"]["MetricName"], message["Trigger"]["Namespace"])
-            broker = message["Trigger"]["Dimensions"][0]["value"]
-            value = message["Trigger"]["Threshold"]
-            slack_color = color_dict[message["NewStateValue"]]
-            text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker,
-                                                                                         VALUE=value)
-            slack_title = message["AlarmName"]
+            if "ALARM" in slack_title:
+
+                queue = "%s::%s" % (message["Trigger"]["MetricName"], message["Trigger"]["Namespace"])
+                broker = message["Trigger"]["Dimensions"][0]["value"]
+                value = message["Trigger"]["Threshold"]
+                slack_color = color_dict[message["NewStateValue"]]
+                text = "MetricName: {QUEUE}\nDimension: {BROKER}\nThreshold: {VALUE}".format(QUEUE=queue, BROKER=broker,
+                                                                                             VALUE=value)
+            else:
+
+                identifier = message["Source ID"]
+                value = message["Event Message"]
+                text = "Dimension: {BROKER}\nMessage: {VALUE}".format(BROKER=identifier, VALUE=value)
+                slack_color = color_dict["ALARM"]
             slack_author = "Amazon Web Services/SNS [CloudCompliance]"
             slack_channel = "infrastructure"
         except Exception as e:

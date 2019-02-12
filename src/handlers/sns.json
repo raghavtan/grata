@@ -1,41 +1,61 @@
-{
-  'Type': 'Notification',
-  'MessageId': '8f05890d-faa1-5f9b-a7a0-ddba13377e80',
-  'TopicArn': 'arn:aws:sns:ap-southeast-1:445897275450:Infrastructure',
-  'Subject': 'ALARM: "[High] [CPU] [app3.cms]" in Asia Pacific (Singapore)',
-  'Message': {
-    "AlarmName": "[High] [CPU] [app3.cms]",
-    "AlarmDescription": "Created from EC2 Console",
-    "AWSAccountId": "445897275450",
-    "NewStateValue": "ALARM",
-    "NewStateReason": "Threshold Crossed: 2 datapoints [17.09166666666684 (15/01/19 13:54:00), 14.3666666666665 (15/01/19 13:49:00)] were greater than or equal to the threshold (10.0).",
-    "StateChangeTime": "2019-01-15T13:59:50.917+0000",
-    "Region": "Asia Pacific (Singapore)",
-    "OldStateValue": "OK",
-    "Trigger": {
-      "MetricName": "CPUUtilization",
-      "Namespace": "AWS/EC2",
-      "StatisticType": "Statistic",
-      "Statistic": "AVERAGE",
-      "Unit": null,
-      "Dimensions": [
-        {
-          "value": "i-09fe662484574cd84",
-          "name": "InstanceId"
-        }
-      ],
-      "Period": 300,
-      "EvaluationPeriods": 2,
-      "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-      "Threshold": 10.0,
-      "TreatMissingData": "",
-      "EvaluateLowSampleCountPercentile": ""
-    }
+[
+  {
+    'Type': 'Notification',
+    'MessageId': '8f05890d-faa1-5f9b-a7a0-ddba13377e80',
+    'TopicArn': 'arn:aws:sns:ap-southeast-1:445897275450:Infrastructure',
+    'Subject': 'ALARM: "[High] [CPU] [app3.cms]" in Asia Pacific (Singapore)',
+    'Message': {
+      "AlarmName": "[High] [CPU] [app3.cms]",
+      "AlarmDescription": "Created from EC2 Console",
+      "AWSAccountId": "445897275450",
+      "NewStateValue": "ALARM",
+      "NewStateReason": "Threshold Crossed: 2 datapoints [17.09166666666684 (15/01/19 13:54:00), 14.3666666666665 (15/01/19 13:49:00)] were greater than or equal to the threshold (10.0).",
+      "StateChangeTime": "2019-01-15T13:59:50.917+0000",
+      "Region": "Asia Pacific (Singapore)",
+      "OldStateValue": "OK",
+      "Trigger": {
+        "MetricName": "CPUUtilization",
+        "Namespace": "AWS/EC2",
+        "StatisticType": "Statistic",
+        "Statistic": "AVERAGE",
+        "Unit": null,
+        "Dimensions": [
+          {
+            "value": "i-09fe662484574cd84",
+            "name": "InstanceId"
+          }
+        ],
+        "Period": 300,
+        "EvaluationPeriods": 2,
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Threshold": 10.0,
+        "TreatMissingData": "",
+        "EvaluateLowSampleCountPercentile": ""
+      }
+    },
+    'Timestamp': '2019-01-15T13:59:50.957Z',
+    'SignatureVersion': '1',
+    'Signature': 'GAAxJMuLmSwvsFRH77Y5QthIw6F9hTUahoA7mEBUHokFjrKMtVdRfb4JJnOC068ihs35sHMBxGEwDK597K7c4VWDuZb6kiikIwrvZAaVVmN+xNWhoHXI4Sd1l+SbiWIvsF5mj384uAX7lTFj7spHOgHckMUv2IHlUFqWrHvjpx4tSey6fkwaUOST9U+/Ua3IKS518WdriJ0vC1miA4c4jH2rBC9qaZzwgr6RHia8s824Mhq5d7tf/a2nMPONJkHvAEOhpdwggJJB4tH0JGHRKkVUHiKwXsfNC8Gk8zMmXqWJGJw6oyuTNGuAuSUJRJVjI+hvCxWHaMrgRoOh6z9Iig==',
+    'SigningCertURL': 'https://sns.ap-southeast-1.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem',
+    'UnsubscribeURL': 'https://sns.ap-southeast-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-1:445897275450:Infrastructure:da3150fe-1d05-4ac3-8e1c-e643d880b082'
   },
-  'Timestamp': '2019-01-15T13:59:50.957Z',
-  'SignatureVersion': '1',
-  'Signature': 'GAAxJMuLmSwvsFRH77Y5QthIw6F9hTUahoA7mEBUHokFjrKMtVdRfb4JJnOC068ihs35sHMBxGEwDK597K7c4VWDuZb6kiikIwrvZAaVVmN+xNWhoHXI4Sd1l+SbiWIvsF5mj384uAX7lTFj7spHOgHckMUv2IHlUFqWrHvjpx4tSey6fkwaUOST9U+/Ua3IKS518WdriJ0vC1miA4c4jH2rBC9qaZzwgr6RHia8s824Mhq5d7tf/a2nMPONJkHvAEOhpdwggJJB4tH0JGHRKkVUHiKwXsfNC8Gk8zMmXqWJGJw6oyuTNGuAuSUJRJVjI+hvCxWHaMrgRoOh6z9Iig==',
-  'SigningCertURL': 'https://sns.ap-southeast-1.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem',
-  'UnsubscribeURL': 'https://sns.ap-southeast-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-1:445897275450:Infrastructure:da3150fe-1d05-4ac3-8e1c-e643d880b082'
-},
-{'Type': 'Notification', 'MessageId': 'aafe1e66-7467-57d3-bbc2-4aba5c56874c', 'TopicArn': 'arn:aws:sns:ap-southeast-1:445897275450:notify-all-slack', 'Subject': 'RDS Notification Message', 'Message': '{"Event Source":"db-instance","Event Time":"2019-02-12 01:45:21.471","Identifier Link":"https://console.aws.amazon.com/rds/home?region=ap-southeast-1#dbinstance:id=limetraycmsprod","Source ID":"limetraycmsprod","Event ID":"http://docs.amazonwebservices.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0055","Event Message":"DB Instance limetraycmsprod has a large number of tables and has the parameter innodb_file_per_table set to 1, which can increase database recovery time significantly. Consider setting this parameter to 0 in the parameter group associated with this DB instance to minimize database downtime during reboots and failovers. Please refer to http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.MySQL.CommonDBATasks.html#Appendix.MySQL.CommonDBATasks.Tables"}', 'Timestamp': '2019-02-12T01:48:33.038Z', 'SignatureVersion': '1', 'Signature': 'qnZvhLbBU0e7TOUdLHRB/bUnVfZ1ar2mhRNClNArdZ59/g7iVbfa3TKsOg8dqjbb1ijO6UIqoqbtTz/Vvenosb/GDvNLc6HM4LHZ+vl78ri2FfYrDHkW1Zd5cDhC/GuGuciG1LvOE1boAzbwIhb5T+zJL/rxGb/pCkVzCq11rYSH4lHoRZebodK4o/3QlPKmYpTaigz5mDvdUb/wuK+tXyCuqkxE+eVOQzFwI1XhvJyQq5BddP8h0cG5Ydg+MF3TQ6P0Pvsdne/RAMHKmFWHzAG5P6HxENmtiaeb6y0+FWR8aeDco6SeeJBm2N+5O+QdxaovBpnlPqo8UFEKfeFWzA==', 'SigningCertURL': 'https://sns.ap-southeast-1.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem', 'UnsubscribeURL': 'https://sns.ap-southeast-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-1:445897275450:notify-all-slack:d78f2deb-20bd-452d-80a4-48d42a54f125'}
+  {
+    'Type': 'Notification',
+    'MessageId': 'aafe1e66-7467-57d3-bbc2-4aba5c56874c',
+    'TopicArn': 'arn:aws:sns:ap-southeast-1:445897275450:notify-all-slack',
+    'Subject': 'RDS Notification Message',
+    'Message': {
+      "Event Source": "db-instance",
+      "Event Time": "2019-02-12 01:45:21.471",
+      "Identifier Link": "https://console.aws.amazon.com/rds/home?region=ap-southeast-1#dbinstance:id=limetraycmsprod",
+      "Source ID": "limetraycmsprod",
+      "Event ID": "http://docs.amazonwebservices.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0055",
+      "Event Message": "DB Instance limetraycmsprod has a large number of tables and has the parameter innodb_file_per_table set to 1, which can increase database recovery time significantly. Consider setting this parameter to 0 in the parameter group associated with this DB instance to minimize database downtime during reboots and failovers. Please refer to http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.MySQL.CommonDBATasks.html#Appendix.MySQL.CommonDBATasks.Tables"
+    },
+    'Timestamp': '2019-02-12T01:48:33.038Z',
+    'SignatureVersion': '1',
+    'Signature': 'qnZvhLbBU0e7TOUdLHRB/bUnVfZ1ar2mhRNClNArdZ59/g7iVbfa3TKsOg8dqjbb1ijO6UIqoqbtTz/Vvenosb/GDvNLc6HM4LHZ+vl78ri2FfYrDHkW1Zd5cDhC/GuGuciG1LvOE1boAzbwIhb5T+zJL/rxGb/pCkVzCq11rYSH4lHoRZebodK4o/3QlPKmYpTaigz5mDvdUb/wuK+tXyCuqkxE+eVOQzFwI1XhvJyQq5BddP8h0cG5Ydg+MF3TQ6P0Pvsdne/RAMHKmFWHzAG5P6HxENmtiaeb6y0+FWR8aeDco6SeeJBm2N+5O+QdxaovBpnlPqo8UFEKfeFWzA==',
+    'SigningCertURL': 'https://sns.ap-southeast-1.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem',
+    'UnsubscribeURL': 'https://sns.ap-southeast-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-1:445897275450:notify-all-slack:d78f2deb-20bd-452d-80a4-48d42a54f125'
+  }
+]
