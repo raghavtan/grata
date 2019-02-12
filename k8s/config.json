@@ -1,6 +1,6 @@
 {
   "autoConfig" : true,
-  "version": "1.0.0",
+  "version": "1.0.5",
   "port" : 8001,
   "environment" : [
     {
@@ -23,6 +23,10 @@
       "name":"AWS_DEFAULT_REGION",
       "value":"ap-southeast-1"
     },
+    {
+      "name":"NEW_RELIC_CONFIG_FILE",
+      "value":"/usr/app/newrelic.ini"
+    }
   ],
   "tier" : "infrastructure",
   "owner" : "raghav",

@@ -23,6 +23,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8001
 
-ENV NEW_RELIC_CONFIG_FILE=newrelic.ini
-
-CMD ["NEW_RELIC_CONFIG_FILE=newrelic.ini","newrelic-admin","run-program","python" ,"main.py"]
+CMD ["newrelic-admin","run-program","python" ,"main.py"]
