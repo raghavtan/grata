@@ -23,4 +23,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8001
 
-CMD ["newrelic-admin","run-program","python" ,"main.py"]
+CMD ["python" ,"main.py"]

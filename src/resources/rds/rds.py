@@ -10,7 +10,7 @@ from src.resources.rds.mysql_parser import SlowQueryLog
 
 client = boto3.client('rds')
 
-@jit(nopython=True)
+
 def fetch_all_rds():
     """
 
