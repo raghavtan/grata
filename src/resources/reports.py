@@ -1,12 +1,10 @@
 import datetime
 import os
-import time
+
 import boto3
 import dateutil.parser
 import dateutil.tz
 import xlsxwriter
-from numba import jit
-
 
 
 def push_to_s3(file_path, title, bucket="slow.query.logs"):
@@ -16,12 +14,11 @@ def push_to_s3(file_path, title, bucket="slow.query.logs"):
     bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket)
     object_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(bucket_location['LocationConstraint'], bucket,
                                                                "%s/report-%s.xlsx" % (title, time_stamp))
-    os.remove("%s_report.xlsx"%(title))
+    os.remove("%s_report.xlsx" % (title))
     return object_url
 
 
-@jit(nopython=True)
-def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.logs"):
+def report_generate(list_of_print, timelapse, title="mongo", bucket="slow.query.logs"):
     """
 
     :param list_of_print:
@@ -85,5 +82,5 @@ def report_generate(list_of_print, timelapse, title="mongo",bucket="slow.query.l
         column_start += 1
 
     workbook.close()
-    resp = push_to_s3("%s_report.xlsx" % title, title,bucket)
+    resp = push_to_s3("%s_report.xlsx" % title, title, bucket)
     return resp

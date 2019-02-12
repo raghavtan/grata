@@ -60,7 +60,7 @@ class ListenerClient(metaclass=CreateSingleton):
                 logger.debug("sending payload directly to slack")
                 command = "curl -X POST --data-urlencode \'payload={PAYLOAD}\' {URL}"
                 rc, output, text = run_shell(command=command.format(PAYLOAD=encoded_payload, URL=self.slacker))
-                text="null"
+                text = "null"
 
             out = {"text": text, "sc": rc}
             logger.debug(out)

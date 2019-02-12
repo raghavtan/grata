@@ -1,7 +1,6 @@
 """
 
 """
-import asyncio
 
 
 class CreateSingleton(type):
@@ -21,5 +20,3 @@ class CreateSingleton(type):
     def __clean_all__():
         for _instance in CreateSingleton.singleton_instances:
             _instance.__del__()
-
-

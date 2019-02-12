@@ -32,7 +32,6 @@ kafka-python==1.4.3
 kubernetes-py==1.10.7.1
 kubernetes==8.0.1
 multidict==4.5.2
-numba
 numpy==1.16.1
 oauthlib==3.0.1
 pendulum==2.0.4
@@ -61,4 +60,3 @@ websocket-client==0.54.0
 xlsxwriter==1.1.4
 yarl==1.3.0
 zope.interface==4.6.0
-newrelic

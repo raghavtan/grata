@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """Module to provide kafka handlers for internal logging facility."""
-import json_logging
-
 import json
 import logging
 import sys
 
+import json_logging
 from kafka import KafkaProducer
 
 
@@ -92,7 +91,7 @@ class KafkaHandler(logging.Handler):
 
 
 json_logging.ENABLE_JSON_LOGGING = False
-json_logging.COMPONENT_NAME="Grata"
+json_logging.COMPONENT_NAME = "Grata"
 json_logging.init()
 logger = logging.getLogger("root")
 logger.setLevel(logging.DEBUG)

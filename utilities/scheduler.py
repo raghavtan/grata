@@ -3,7 +3,6 @@ import asyncio
 import aiojobs
 
 
-
 async def schedule():
     scheduler = await aiojobs.create_scheduler()
     await scheduler.spawn(coro(i / 10))

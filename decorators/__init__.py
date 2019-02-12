@@ -3,10 +3,8 @@
 """
 import time
 
-
 # This logs the name of the method whose execution time exceeds the given threshold.
 TIME_THRESHOLD = 0.001
-
 
 # This will store average measurements for each method name.
 # { method_name: [ call_count, average_time ] }
@@ -19,6 +17,7 @@ def time_cast(method):
     :param method:
     :return:
     """
+
     async def wrapper(*args, **kwargs):
         """
 
@@ -44,6 +43,7 @@ def time_cast(method):
         measurements[method_name] = [count, average]
 
         return result
+
     return wrapper
 
 
@@ -56,6 +56,7 @@ def timeit(method):
             name = kw.get('log_name', method.__name__.upper())
             kw['log_time'][name] = int((te - ts) * 1000)
         else:
-            print ('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
+            print('%r  %2.2f ms' % (method.__name__, (te - ts) * 1000))
         return result
+
     return timed
