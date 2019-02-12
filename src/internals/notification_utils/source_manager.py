@@ -33,7 +33,6 @@ class AlertsSource:
         return return_list
 
 
-@jit(nopython=True)
 def sources(payload=None):
     """
 
