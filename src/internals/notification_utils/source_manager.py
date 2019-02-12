@@ -1,6 +1,8 @@
 """
 
 """
+from numba import jit
+
 from utilities import logger
 
 
@@ -31,13 +33,14 @@ class AlertsSource:
         return return_list
 
 
+@jit(nopython=True)
 def sources(payload=None):
     """
 
     :param payload:
     :return:
     """
-    slack_direct_sources = ["jenkins", "tsdb", "bugsnag","sns"]
+    slack_direct_sources = ["jenkins", "tsdb", "bugsnag", "sns"]
     slack_direct_flag = False
     sources_list = AlertsSource.__key_set__()
     payload_keys = set(list(payload.keys()))
