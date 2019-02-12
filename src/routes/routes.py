@@ -20,7 +20,7 @@ routes = {
     },
     "/incoming": {
         "/api": RouteData(cache=None,
-                          methods=[ 'POST'],
+                          methods=['POST'],
                           handler=incoming.api),
 
         "/queue": RouteData(cache=None,

@@ -1,37 +1,36 @@
 {
-  "autoConfig" : true,
+  "autoConfig": true,
   "version": "1.0.5",
-  "port" : 8001,
-  "environment" : [
+  "port": 8001,
+  "environment": [
     {
-      "name" : "APP_ENV",
-      "value" : "{{namespace}}"
+      "name": "APP_ENV",
+      "value": "{{namespace}}"
     },
     {
-      "name" : "APP_PORT",
-      "value" : "8001"
+      "name": "APP_PORT",
+      "value": "8001"
     },
     {
-      "name":"AWS_ACCESS_KEY_ID",
-      "value":"AKIAI4VASORJYOYE3KJQ"
+      "name": "AWS_ACCESS_KEY_ID",
+      "value": "AKIAI4VASORJYOYE3KJQ"
     },
     {
-      "name":"AWS_SECRET_ACCESS_KEY",
-      "value":"klXTaxz4RzMyzI+JzMiQsJzxsD3BUeXg5NV0oAnX"
+      "name": "AWS_SECRET_ACCESS_KEY",
+      "value": "klXTaxz4RzMyzI+JzMiQsJzxsD3BUeXg5NV0oAnX"
     },
     {
-      "name":"AWS_DEFAULT_REGION",
-      "value":"ap-southeast-1"
+      "name": "AWS_DEFAULT_REGION",
+      "value": "ap-southeast-1"
     },
     {
-      "name":"NEW_RELIC_CONFIG_FILE",
-      "value":"/usr/app/newrelic.ini"
+      "name": "NEW_RELIC_CONFIG_FILE",
+      "value": "/usr/app/newrelic.ini"
     }
   ],
-  "tier" : "infrastructure",
-  "owner" : "raghav",
-  "labels" : {
+  "tier": "infrastructure",
+  "owner": "raghav",
+  "labels": {
     "group": "alerting"
-
   }
 }

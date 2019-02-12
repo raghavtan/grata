@@ -1,8 +1,8 @@
 """
 
 """
-from vibora.request import Request
 from vibora.cache import CacheEngine
+from vibora.request import Request
 
 
 class DefaultCacheEngine(CacheEngine):

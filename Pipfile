@@ -20,8 +20,6 @@ xlsxwriter = "*"
 "boto3" = "*"
 aiojobs = "*"
 llvmlite = "*"
-numba = "*"
-newrelic = "*"
 
 [dev-packages]
 

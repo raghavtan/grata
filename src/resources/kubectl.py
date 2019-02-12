@@ -13,13 +13,10 @@
 # limitations under the License.
 
 from pprint import pprint
-from utilities import logger
+
 from kubernetes import client, config
-from src.resources import KUBE_CONFIG
 
-
-from kubernetes_py import K8sConfig
-from kubernetes_py import K8sNode
+from utilities import logger
 
 
 def LoadKubernetes(environment="production"):
@@ -27,14 +24,16 @@ def LoadKubernetes(environment="production"):
     :return:
     """
     try:
-        config_file_path=os
+        config_file_path = os
         config.load_kube_config(kubeConfig, context="aws_kube-prod")
         # v1=client.EventsApi
         v1 = client.CoreV1Api()
         return v1
     except Exception as e:
-        logger.exception("[KUBERNETES] Exception loading Kubernetes configuration from file: {}\nWith Exception :{}".format(
-            (os.path.join(ROOT, "conf", MODULE, CONFIG[MODULE])), e))
+        logger.exception(
+            "[KUBERNETES] Exception loading Kubernetes configuration from file: {}\nWith Exception :{}".format(
+                (os.path.join(ROOT, "conf", MODULE, CONFIG[MODULE])), e))
+
 
 def cordonNode():
     """

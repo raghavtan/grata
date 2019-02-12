@@ -24,7 +24,7 @@ class Scheduler(metaclass=CreateSingleton):
             logger.exception(e, exc_info=True)
             asyncio.get_event_loop().close()
 
-    async def spawn_job(self,func):
+    async def spawn_job(self, func):
         try:
             resp = await self.scheduler.spawn(func)
             return resp

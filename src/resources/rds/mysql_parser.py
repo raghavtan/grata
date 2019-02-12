@@ -1,11 +1,9 @@
-
 #
 """Module with parsers for General and Slow Query Log.
 """
 
-import re
-import decimal
 import datetime
+import re
 
 
 class LogParserError(Exception):
@@ -18,9 +16,11 @@ _HEADER_VERSION_CRE = re.compile(r"(.+), Version: (\d+)\.(\d+)\.(\d+)(?:-(\S+))?
 _HEADER_SERVER_CRE = re.compile(r"Tcp port:\s*(\d+)\s+Unix socket:\s+(.*)")
 
 _SLOW_TIMESTAMP_CRE = re.compile(r"#\s+Time:\s+(" + _DATE_PAT + r")")
-_SLOW_USERHOST_CRE = re.compile(r"#\s+User@Host:\s+(?:([\w\d\-\.]+))?\s*\[\s*([\w\d\-\.]+)\s*\]\s*@\s*([\w\d\.\-]*)\s*\[\s*([\d.]*)\s*\]\s*(?:Id\:\s*(\d+)?\s*)?")
+_SLOW_USERHOST_CRE = re.compile(
+    r"#\s+User@Host:\s+(?:([\w\d\-\.]+))?\s*\[\s*([\w\d\-\.]+)\s*\]\s*@\s*([\w\d\.\-]*)\s*\[\s*([\d.]*)\s*\]\s*(?:Id\:\s*(\d+)?\s*)?")
 
-_SLOW_STATS_CRE = re.compile(r"#\sQuery_time:\s(\d*\.\d{1,6})\s*Lock_time:\s(\d*\.\d{1,6})\s*Rows_sent:\s(\d*)\s*Rows_examined:\s(\d*)\s*(Rows_affected:\s(\d*)\s*Rows_read:\s(\d*)){0,1}")
+_SLOW_STATS_CRE = re.compile(
+    r"#\sQuery_time:\s(\d*\.\d{1,6})\s*Lock_time:\s(\d*\.\d{1,6})\s*Rows_sent:\s(\d*)\s*Rows_examined:\s(\d*)\s*(Rows_affected:\s(\d*)\s*Rows_read:\s(\d*)){0,1}")
 
 _THREAD_INFO_CRE = re.compile(r"#\sThread_id:\s(\d*)\s*Schema:\s(.*)")
 
