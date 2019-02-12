@@ -31,9 +31,8 @@ json-logging==0.0.11
 kafka-python==1.4.3
 kubernetes-py==1.10.7.1
 kubernetes==8.0.1
-llvmlite==0.27.1
 multidict==4.5.2
-numba==0.42.1
+numba
 numpy==1.16.1
 oauthlib==3.0.1
 pendulum==2.0.4
