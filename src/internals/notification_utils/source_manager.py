@@ -31,7 +31,6 @@ class AlertsSource:
         return return_list
 
 
-
 def sources(payload=None):
     """
 
