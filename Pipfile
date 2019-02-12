@@ -19,6 +19,8 @@ aiokafka = "*"
 xlsxwriter = "*"
 "boto3" = "*"
 aiojobs = "*"
+llvmlite = "*"
+numba = "*"
 
 [dev-packages]
 
