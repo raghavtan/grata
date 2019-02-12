@@ -15,14 +15,12 @@ WORKDIR /usr
 
 COPY . /usr/app
 
-RUN pip3 install pipenv
-
 WORKDIR /usr/app
 
-RUN pipenv install
+RUN pip install -r requirements.txt
 #
 #ENTRYPOINT ["pipenv"]
 
 EXPOSE 8001
 
-CMD ["pipenv","run", "python" ,"main.py"]
+CMD ["python" ,"main.py"]
