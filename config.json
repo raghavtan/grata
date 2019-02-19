@@ -13,5 +13,6 @@
   "slack_default_channel": "devops",
   "kube_config": "config/kube-prod.yaml",
   "kafka_logging": "True",
-  "kafka_logging_topic": "infrastructure"
+  "kafka_logging_topic": "infrastructure",
+  "eshost":"https://elastic.limetray.com"
 }

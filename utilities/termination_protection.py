@@ -19,15 +19,15 @@ class TerminateProtected:
     """
     killed = False
 
-    def _handler(self, signum, frame):
+    def process_handler(self, signum, frame):
         trace = "Received SIGINT or SIGTERM! Finishing this block, then exiting."
         print(inspect.stack()[0][3], trace)
 
         self.killed = True
 
     def __enter__(self):
-        self.old_sigint = signal.signal(signal.SIGINT, self._handler)
-        self.old_sigterm = signal.signal(signal.SIGTERM, self._handler)
+        self.old_sigint = signal.signal(signal.SIGINT, self.process_handler)
+        self.old_sigterm = signal.signal(signal.SIGTERM, self.process_handler)
 
     def __exit__(self, type, value, traceback):
         if self.killed:
