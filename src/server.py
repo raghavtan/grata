@@ -15,6 +15,7 @@ from vibora.router.router import Route
 from src.listeners import CreateSingleton
 from src.listeners.internal_statistics import Statistics
 from src.listeners.kafka_client2 import KafkaPublish
+from src.listeners.elastic import EsClient
 from src.listeners.slack_client import ListenerClient
 from src.routes_loader import ServerRoutes
 from utilities import __routes_list_filter__
@@ -87,6 +88,7 @@ class Server(object):
         if self.config.enable_queue:
             logger.info("Initializing Kafka connection")
         KafkaPublish(self.config, asyncio.get_event_loop())
+        EsClient(self.config)
         self.app.scheduler = await aiojobs.create_scheduler(close_timeout=30)
 
         # self.init_socket_server()
@@ -124,10 +126,11 @@ class Server(object):
 
     def request_logger(self, request: Request):
         logger.info(
-            f'Received Incoming\n'
-            f'{request.url}\n'
-            f'{request.headers.__str__()}\n'
-            f'{request.method}')
+            f'[Incoming]'
+            f'[{request.url}]'
+            f'[{request.method}]\n'
+            f'[{request.headers.__str__()}]'
+            )
 
     def response_logger(self, response: Response):
 
