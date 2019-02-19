@@ -77,14 +77,17 @@ async def complete(request: Request, resource: str, time_lapse: int):
     """
     status = 400
     try:
-        ReportJob = Report()
+        report_job = Report()
         if resource:
             status = 200
             if resource == "rds":
-                await request.app.scheduler.spawn(ReportJob.job(resource, time_lapse))
+                await request.app.scheduler.spawn(report_job.job_rds(resource, time_lapse))
+                resp = "ok"
+            elif resource == "redis":
+                await request.app.scheduler.spawn(report_job.job_redis(time_lapse))
                 resp = "ok"
             else:
-                resp = "Only RDS reports configured"
+                resp = "Only RDS and Redis reports configured"
         else:
             resp = "Specify Resource for report"
     except Exception as e:
