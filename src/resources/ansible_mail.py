@@ -5,14 +5,14 @@ from email.mime.text import MIMEText
 from utilities import logger
 
 
-def send_mail(subject="sample", body=None, attachments=None, fromaddr="ansible@limetray.com",
+def send_mail(subject="sample", body=None, attachments=None, fromaddr="ansible@limetray.com", resource="",
               toaddr="rtandon@limetray.com"):
     try:
         # instance of MIMEMultipart
         msg = MIMEMultipart()
 
         # storing the senders email address
-        msg['From'] = fromaddr
+        msg['From'] = "LimeTray %s <%s>"%(resource,fromaddr)
 
         # storing the receivers email address
         msg['To'] = toaddr

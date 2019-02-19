@@ -20,7 +20,7 @@ class Report:
                                       title="%s-%s" % (resource, instance))
                 logger.info("Generated xlsx file at %s" % url)
                 send_mail(subject="%s Query Report" % instance, body=url,
-                          toaddr="tech@limetray.com")
+                          toaddr="tech@limetray.com",resource="RDS")
                 logger.info("Sent Mail for %s" % instance)
 
     async def job_redis(self, time_lapse):
@@ -70,6 +70,6 @@ class Report:
                                   timelapse=time_lapse,
                                   title="Redis")
             logger.info("Generated xlsx file at %s" % url)
-            send_mail(subject="Redis Query Report", body=url,
+            send_mail(subject="Redis Query Report", body=url, resource="REDIS",
                       toaddr="tech@limetray.com")
             logger.info("Sent Mail for %s" % url)
