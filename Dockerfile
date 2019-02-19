@@ -17,7 +17,7 @@ COPY . /usr/app
 
 WORKDIR /usr/app
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt -qq
 #
 #ENTRYPOINT ["pipenv"]
 

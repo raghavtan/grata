@@ -71,5 +71,5 @@ class Report:
                                   title="Redis")
             logger.info("Generated xlsx file at %s" % url)
             send_mail(subject="Redis Query Report", body=url,
-                      toaddr="rtandon@limetray.com")
+                      toaddr="tech@limetray.com")
             logger.info("Sent Mail for %s" % url)
