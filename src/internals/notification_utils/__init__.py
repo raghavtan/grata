@@ -78,7 +78,7 @@ def payload_multiplex(payload, source):
             color_dict = dict(OK="good", ALARM="danger")
             slack_title = payload["Subject"]
             message = json.loads(payload["Message"])
-            if "ALARM" in slack_title:
+            if "ALARM" in slack_title or "OK" in slack_title :
 
                 queue = "%s::%s" % (message["Trigger"]["MetricName"], message["Trigger"]["Namespace"])
                 broker = message["Trigger"]["Dimensions"][0]["value"]
