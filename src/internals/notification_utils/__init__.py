@@ -105,6 +105,7 @@ def payload_multiplex(payload, source):
     slack_payload["username"] = slack_username
     slack_payload["attachments"][0]["color"] = slack_color
     slack_payload["attachments"][0]["text"] = text
+    slack_payload["attachments"][0]["fallback"] = slack_title
     slack_payload["attachments"][0]["title"] = slack_title
     slack_payload["attachments"][0]["author_name"] = slack_author
 
