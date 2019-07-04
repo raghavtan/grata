@@ -34,7 +34,7 @@ def send_mail(subject="sample", body=None, attachments=None, fromaddr="ansible@l
         s.starttls()
 
         # Authentication
-        s.login(fromaddr, "Ansible@lime")
+        s.login(fromaddr, "Ansible@Lime")
 
         # Converts the Multipart msg into a string
         text = msg.as_string()
