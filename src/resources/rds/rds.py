@@ -101,18 +101,21 @@ def parse_log(event):
     :param event:
     :return:
     """
-    event_list = {}
-    f = open('_tmp_event', 'w')
-    print (event)
-    f.write(event)
-    f.close()
-    f_new = open('_tmp_event', 'r')
-    loggy = SlowQueryLog(f_new)
-    for k, v in loggy.next().items():
-        event_list[k] = v
-    f_new.close()
-    os.remove("_tmp_event")
-    return event_list
+    try:
+        event_list = {}
+        f = open('_tmp_event', 'w')
+        f.write(event)
+        f.close()
+        f_new = open('_tmp_event', 'r')
+        loggy = SlowQueryLog(f_new)
+        for k, v in loggy.next().items():
+            event_list[k] = v
+        f_new.close()
+        os.remove("_tmp_event")
+        return event_list
+    except Exception as e:
+        print ("Exception:%s\nEvent:%s"%(e,event))
+        raise
 
 
 def parsed_events(dBInstanceIdentifier, days_to_ingest):
