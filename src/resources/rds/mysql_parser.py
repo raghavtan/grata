@@ -531,8 +531,9 @@ class SlowQueryLog(LogParserBase):
         """
         info = regex.match(line)
         if info is None:
+            print ("EXceptionLine: %s"%line)
             raise LogParserError('Failed parsing Slow Query line: %s' %
-                                 line)
+                                 line[:30])
         return info.groups()
 
     def _parse_connection_info(self, line, entry):
