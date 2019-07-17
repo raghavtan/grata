@@ -103,6 +103,7 @@ def parse_log(event):
     """
     event_list = {}
     f = open('_tmp_event', 'w')
+    print (event)
     f.write(event)
     f.close()
     f_new = open('_tmp_event', 'r')
