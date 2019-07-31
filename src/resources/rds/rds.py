@@ -115,7 +115,6 @@ def parse_log(event):
         return event_list
     except Exception as e:
         print ("Exception:%s\nEvent:%s"%(e,event))
-        raise
 
 
 def parsed_events(dBInstanceIdentifier, days_to_ingest):
@@ -137,15 +136,18 @@ def parsed_events(dBInstanceIdentifier, days_to_ingest):
                      "user": None,
                      "query": None,
                      "rows_affected": None}
-            temp = parse_log(event)
-            for element in EVENT.keys():
-                if element in temp.keys():
-                    EVENT[element] = temp[element]
-                    if element == "database" and temp[element]:
-                        previous_database = temp[element]
+            try:
+                temp = parse_log(event)
+                for element in EVENT.keys():
+                    if element in temp.keys():
+                        EVENT[element] = temp[element]
+                        if element == "database" and temp[element]:
+                            previous_database = temp[element]
 
-                    elif element == "database" and not temp[element]:
-                        EVENT[element] = previous_database
+                        elif element == "database" and not temp[element]:
+                            EVENT[element] = previous_database
 
-            queries_parsed.append(EVENT)
+                queries_parsed.append(EVENT)
+            except Exception as e:
+                print ("Exception:%s\nEvent:%s"%(e,event))
     return queries_parsed
