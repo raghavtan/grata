@@ -6,7 +6,7 @@
   "api_helper": "True",
   "strict_slashes": "False",
   "slack_url": "https://hooks.slack.com/services/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",
-  "slack_token": "xoxp-2277836027-236641862790-517809741604-74ac866e5987d387080d7645ab87b639",
+  "slack_token": "xoxp-2277836027-444521743398-717480945349-9f3724690d43f734ef11dc708d292599",
   "kafka_host": "logs.limetray.infra:9092",
   "kafka_alerts_topic": "alerts",
   "alert_queue": "True",
