@@ -16,7 +16,7 @@ class Report:
             logger.info("Fetched Parsed logs for %s" % instance)
             if len(events) > 0:
                 url = report_generate(events,
-                                      timelapse=24,
+                                      timelapse=time_lapse,
                                       title="%s-%s" % (resource, instance))
                 logger.info("Generated xlsx file at %s" % url)
                 send_mail(subject="%s Query Report" % instance, body=url,
