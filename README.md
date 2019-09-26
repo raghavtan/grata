@@ -41,65 +41,53 @@ These instructions will get you a copy of the project up and running on your loc
 ├── k8s
 │   └── config.json
 ├── main.py
-├── newrelic.ini
-├── query.json
 ├── requirements.txt
 ├── setup.py
 ├── src
 │   ├── __init__.py
-│   ├── cache_engine.py
+│   ├── cache_engine.py                # Cache engine for web server (can be used whle defining cache=True in routes.py) 
 │   ├── handlers
 │   │   ├── __init__.py
 │   │   ├── alerts.py
 │   │   ├── base.py
-│   │   ├── bugsnag.json
-│   │   ├── bugsnag_sample.json
 │   │   ├── helper.py
-│   │   ├── incoming.py
-│   │   ├── jenkins.json
-│   │   ├── kube_schedule.json
-│   │   ├── logs.json
-│   │   ├── newtsdb.json
-│   │   ├── reporting.py
-│   │   ├── service.json
-│   │   ├── sns.json
-│   │   └── tsdb.json
+│   │   ├── incoming.py                 # Handler for incoming alerts hooks(creates alert job background task)
+│   │   ├── reporting.py                # Handler to trigger background job for reports (creates reporting job task)
 │   ├── internal_handlers.py
 │   ├── internals
 │   │   ├── __init__.py
 │   │   └── notification_utils
 │   │       ├── __init__.py
-│   │       └── source_manager.py
+│   │       └── source_manager.py       # Incoming Alerts source parser
 │   ├── jobs
 │   │   ├── __init__.py
-│   │   ├── alert_job.py
-│   │   └── reporting_job.py
+│   │   ├── alert_job.py                # Alert Notification Job backgrond task (triggered for every handler hit)
+│   │   └── reporting_job.py            # Report generation background job (triggered for every handler hit)
 │   ├── listeners
 │   │   ├── __init__.py
-│   │   ├── elastic.py
+│   │   ├── elastic.py                  # ES connection pool maintainer 
 │   │   ├── internal_statistics.py
-│   │   ├── job_scheduler.py
+│   │   ├── job_scheduler.py            # Job scheduler metacl
 │   │   ├── kafka_client.py
 │   │   ├── kafka_client2.py
 │   │   ├── kafka_consumer.py
 │   │   ├── kubernetes_client.py
 │   │   ├── log_factory.py
-│   │   └── slack_client.py
+│   │   └── slack_client.py              # Slack Client 
 │   ├── resources
 │   │   ├── __init__.py
-│   │   ├── ansible_mail.py
+│   │   ├── ansible_mail.py              # send mail wrapper
 │   │   ├── kubectl.py
 │   │   ├── rds
 │   │   │   ├── __init__.py
-│   │   │   ├── mysql_parser.py
-│   │   │   └── rds.py
+│   │   │   ├── mysql_parser.py          # RDS logs fetch from AWS and parsing (uses rds.py underneth)
+│   │   │   └── rds.py                   # RDS logs parsing engine (low-level client)
 │   │   └── reports.py
 │   ├── routes
 │   │   ├── __init__.py
-│   │   └── routes.py
-│   ├── routes_loader.py
-│   └── server.py
-├── temp_search.py
+│   │   └── routes.py                    # Routes defination factory 
+│   ├── routes_loader.py                 # Parses routes.py to load into application 
+│   └── server.py                        # Web server base class
 ├── tox.ini
 └── utilities
     ├── __init__.py
