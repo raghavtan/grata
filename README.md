@@ -16,6 +16,97 @@ Lightweight Fast api framework
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+## Direcorty Structure
+├── CHANGES.txt
+├── Dockerfile
+├── Jenkinsfile
+├── LICENSE
+├── MANIFEST.in
+├── Pipfile
+├── README.md
+├── __init__.py
+├── benchmark.MD
+├── compile.py
+├── config
+│   ├── __init__.py
+│   ├── email_template.html.j2
+│   ├── kube-prod.yaml
+│   └── logging.cfg
+├── config.json
+├── decorators
+│   └── __init__.py
+├── docs
+│   └── logo.gif
+├── k8s
+│   └── config.json
+├── main.py
+├── newrelic.ini
+├── query.json
+├── requirements.txt
+├── setup.py
+├── src
+│   ├── __init__.py
+│   ├── cache_engine.py
+│   ├── handlers
+│   │   ├── __init__.py
+│   │   ├── alerts.py
+│   │   ├── base.py
+│   │   ├── bugsnag.json
+│   │   ├── bugsnag_sample.json
+│   │   ├── helper.py
+│   │   ├── incoming.py
+│   │   ├── jenkins.json
+│   │   ├── kube_schedule.json
+│   │   ├── logs.json
+│   │   ├── newtsdb.json
+│   │   ├── reporting.py
+│   │   ├── service.json
+│   │   ├── sns.json
+│   │   └── tsdb.json
+│   ├── internal_handlers.py
+│   ├── internals
+│   │   ├── __init__.py
+│   │   └── notification_utils
+│   │       ├── __init__.py
+│   │       └── source_manager.py
+│   ├── jobs
+│   │   ├── __init__.py
+│   │   ├── alert_job.py
+│   │   └── reporting_job.py
+│   ├── listeners
+│   │   ├── __init__.py
+│   │   ├── elastic.py
+│   │   ├── internal_statistics.py
+│   │   ├── job_scheduler.py
+│   │   ├── kafka_client.py
+│   │   ├── kafka_client2.py
+│   │   ├── kafka_consumer.py
+│   │   ├── kubernetes_client.py
+│   │   ├── log_factory.py
+│   │   └── slack_client.py
+│   ├── resources
+│   │   ├── __init__.py
+│   │   ├── ansible_mail.py
+│   │   ├── kubectl.py
+│   │   ├── rds
+│   │   │   ├── __init__.py
+│   │   │   ├── mysql_parser.py
+│   │   │   └── rds.py
+│   │   └── reports.py
+│   ├── routes
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── routes_loader.py
+│   └── server.py
+├── temp_search.py
+├── tox.ini
+└── utilities
+    ├── __init__.py
+    ├── log_factory.py
+    ├── os_level.py
+    ├── scheduler.py
+    └── termination_protection.py
+
 ### Prerequisites
 
 Things you need to install the application and how to install them
