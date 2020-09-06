@@ -3,7 +3,7 @@ def slackUser = "@raghav"
 def slackChannel = ""
 def jenkins
 node {
-   fileLoader.withGit('https://github.com/LimeTray/jenkins-pipeline-scripts.git', 'master', 'limetray-github', '') {
+   fileLoader.withGit('https://github.com/jenkins-pipeline-scripts.git', 'master', 'github', '') {
        jenkins = fileLoader.load('jenkins');
    }
 }
