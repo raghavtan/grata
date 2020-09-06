@@ -5,14 +5,14 @@
   "debug": "True",
   "api_helper": "True",
   "strict_slashes": "False",
-  "slack_url": "https://hooks.slack.com/services/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",
-  "slack_token": "xoxp-2277836027-444521743398-717480945349-9f3724690d43f734ef11dc708d292599",
-  "kafka_host": "logs.limetray.infra:9092",
+  "slack_url": "",
+  "slack_token": "",
+  "kafka_host": "logs.infra:9092",
   "kafka_alerts_topic": "alerts",
   "alert_queue": "True",
   "slack_default_channel": "devops",
   "kube_config": "config/kube-prod.yaml",
   "kafka_logging": "True",
   "kafka_logging_topic": "infrastructure",
-  "eshost":"https://elastic.limetray.com"
+  "eshost":"https://elastic"
 }
