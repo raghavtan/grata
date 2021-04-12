@@ -2,7 +2,7 @@
 --trusted-host pypi.org
 adal==1.2.1
 afkak==3.0.0
-aiohttp==3.5.4
+aiohttp==3.7.4
 aiojobs==0.2.2
 aiokafka==0.5.0
 aioslacker==0.0.11
