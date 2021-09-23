@@ -30,6 +30,8 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ```{{ env.CHECKOV_RESULTS }}```
+            ```
+            ${{ env.CHECKOV_RESULTS }}
+            ```
           reactions: '+1'
           token: ${{ secrets.DOCKER_GITHUB_TOKEN }}
