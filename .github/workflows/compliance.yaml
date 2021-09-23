@@ -35,3 +35,15 @@ jobs:
             ```
           reactions: '+1'
           token: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+
+      - uses: peter-evans/create-or-update-comment@v1
+        name: Create comment
+        if: always()
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ```
+            ${{ steps.checkov.outputs.results }}
+            ```
+          reactions: '+1'
+          token: ${{ secrets.DOCKER_GITHUB_TOKEN }}
