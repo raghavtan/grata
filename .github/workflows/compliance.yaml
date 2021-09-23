@@ -18,7 +18,7 @@ jobs:
           python-version: 3.8
       - name: Policy Compliance Evaluation
         id: checkov
-        uses: ghcr.io/raghavtan/checkov-action@master
+        uses: raghavtan/checkov-action@master
         with:
           config_file: compliance/configs/checkov.config.yaml
           directory: checov-test
