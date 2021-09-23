@@ -18,12 +18,11 @@ jobs:
           python-version: 3.8
       - name: Policy Compliance Evaluation
         id: checkov
-        uses: bridgecrewio/checkov-action@master
+        uses: raghavtan/checkov-action@master
         with:
           config_file: compliance/configs/checkov.config.yaml
           directory: checov-test
           log_level: ERROR
-        run: ls -lah
 
       - uses: actions/github-script@v4
         name: Create comment
