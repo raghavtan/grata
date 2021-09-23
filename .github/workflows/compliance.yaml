@@ -34,5 +34,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body:
-                '```${{ env.CHECKOV_RESULTS }}```'
+                "${{ env.CHECKOV_RESULTS }}"
             })
