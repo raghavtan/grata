@@ -29,9 +29,10 @@ jobs:
         if: always()
         with:
           script: |
+            const RESULT = JSON.stringify(env.CHECKOV_RESULTS)
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '```${{ JSON.stringify(env.CHECKOV_RESULTS) }}```'
+              body: '```${{ RESULT }}```'
             })
