@@ -24,14 +24,15 @@ jobs:
           directory: checov-test
           log_level: ERROR
 
-      - uses: actions/github-script@v4
+      - uses: peter-evans/create-or-update-comment@v1
         name: Create comment
         if: always()
         with:
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '```\n${{ env.CHECKOV_RESULTS }}\n```'
-            })
+          issue-number: context.issue.number
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
+
+            [1]: https://github.com/peter-evans/create-or-update-comment
+          reactions: '+1'
