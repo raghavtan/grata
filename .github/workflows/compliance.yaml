@@ -30,10 +30,6 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
-
-            [1]: https://github.com/peter-evans/create-or-update-comment
+            ```{{ env.CHECKOV_RESULTS }}```
           reactions: '+1'
           token: ${{ secrets.DOCKER_GITHUB_TOKEN }}
