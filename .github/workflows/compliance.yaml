@@ -1,0 +1,37 @@
+---
+name: Checkov
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Policy Compliance Evaluation
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          config_file: compliance/configs/checkov.config.yaml
+          directory: checov-test
+          log_level: ERROR
+
+      - uses: actions/github-script@v4
+        name: Create comment
+        if: always()
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "```${{ steps.checkov.outputs.results }}```"
+            })

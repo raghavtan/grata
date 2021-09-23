@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  namespace: utility
+spec:
+  # only 1 replica
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: test
+  template:
+    metadata:
+      labels:
+        k8s-app: test
+        # missing squad, tribe, app
+      name: test
+      namespace: utility
+    spec:
+      containers:
+          # latest image
+        - image: hf/test:latest
+          imagePullPolicy: Always
+          name: test
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              # limit 10x request
+              cpu: 2000m
+              memory: 1Gi
+            requests:
+              cpu: 20m
+              memory: 300M
+          # missing liveness and readiness
+          # securityContext: is missing
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: test
+  name: test
+  namespace: utility
+spec:
+  rules:
+    ## incorrect host
+  - host: status.tools-k8s.hellonotfresh.io
+    ## https not enabled
+    http:
+      paths:
+      - backend:
+          serviceName: test
+          servicePort: http
+        path: /
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  generation: 1
+  labels:
+    app: test-frontend-apps
+    squad: test
+    tribe: adtech
+  name: test
+  namespace: utility
+spec:
+  # mismatch between min and replicas
+  minUnavailable: 1
+  selector:
+    matchLabels:
+      app: test
+      release: test-frontend-apps
