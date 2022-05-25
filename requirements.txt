@@ -39,7 +39,7 @@ pyasn1-modules==0.2.4
 pyasn1==0.4.5
 pycparser==2.19
 pyhamcrest==1.9.0
-pyjwt==1.7.1
+pyjwt==2.4.0
 python-dateutil==2.8.0; python_version >= '2.7'
 pytzdata==2018.9
 pyyaml==5.4
